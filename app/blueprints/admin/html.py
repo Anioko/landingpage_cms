@@ -7,12 +7,7 @@ from app.decorators import admin_required
 from app.models import *
 from app.blueprints.admin.views import admin
 from wtforms import Flags
-from .forms import (
-    LandingSettingForm,
-    LandingImageForm,
-    OurBrandForm
-    
-)
+from .forms import *
 
 from flask_uploads import UploadSet, IMAGES
 from flask_wtf.file import FileAllowed

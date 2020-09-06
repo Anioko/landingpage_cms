@@ -18,3 +18,6 @@ from .testimonial import *  # noqa
 from .social import *  # noqa
 from .tracking import *  # noqa
 from .html import *  # noqa
+from .brands import *  # noqa
+from .newslink import *  # noqa
+from .blog import *  # noqa

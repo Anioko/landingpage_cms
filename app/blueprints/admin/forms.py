@@ -208,7 +208,16 @@ class Call2actionForm(FlaskForm):
     call2action_url = TextAreaField('Call to action url')
     submit = SubmitField('Submit')
 
-        
+
+#####Frontend Forms Starts #####
+class PortfolioForm(FlaskForm):
+    portfolio_name = StringField('Mercedes e.g Volvocars', validators=[InputRequired(), Length(1, 25)])
+    portfolio_title = StringField('Automobiles', validators=[InputRequired(), Length(1, 50)])
+    portfolio_description = StringField('Website description', validators=[InputRequired(), Length(1, 180)])
+ 
+    photo = FileField('Photo', validators=[InputRequired(), FileAllowed(images, 'Images only!')])
+    submit = SubmitField('Submit') 
+ 
 #####Frontend Forms Starts #####
 class LandingSettingForm(FlaskForm):
     site_name = StringField('Site Name e.g bookstore.ng', validators=[InputRequired(), Length(1, 128)])
