@@ -15,3 +15,6 @@ from .photo import *  # noqa
 from .logo import *  # noqa
 from .call2action import *  # noqa
 from .testimonial import *  # noqa
+from .social import *  # noqa
+from .tracking import *  # noqa
+from .html import *  # noqa
