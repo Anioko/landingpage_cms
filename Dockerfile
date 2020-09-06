@@ -1,9 +1,9 @@
 FROM ubuntu:16.04
 
-#MAINTANER Your Name "youremail@domain.tld"
+#MAINTANER Your Name "aniekanokono@gmail.com"
 
-ENV MAIL_USERNAME=yourmail@test.com
-ENV MAIL_PASSWORD=testpass
+ENV MAIL_USERNAME=aniekanokono@gmail.com
+ENV MAIL_PASSWORD=password
 ENV SECRET_KEY=SuperRandomStringToBeUsedForEncryption
 
 RUN apt-get update -y && \
