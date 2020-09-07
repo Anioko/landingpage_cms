@@ -68,6 +68,3 @@ def edit_portfolio_setting(id):
             flash('Settings successfully edited', 'success')
             return redirect(url_for('admin.portfolio_dashboard'))
     return render_template('admin/edit_portfolio_setting.html', form=form)
-
-
-@

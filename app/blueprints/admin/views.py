@@ -31,6 +31,12 @@ def index():
     """Admin dashboard page."""
     return render_template('admin/index.html')
 
+@admin.route('/settings/dashboard/')
+@login_required
+@admin_required
+def frontend_dashboard():
+    """Frontend dashboard page."""
+    return render_template('admin/frontend_settings_dashboard.html')
 
 @admin.route('/new-user', methods=['GET', 'POST'])
 @login_required

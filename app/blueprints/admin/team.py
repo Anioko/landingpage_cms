@@ -18,7 +18,7 @@ photos = UploadSet('photos', IMAGES)
 
 
 
-@admin.route('/settings/dashboard/')
+@admin.route('/settings/team/')
 @login_required
 @admin_required
 def team_dashboard():

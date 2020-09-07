@@ -1,0 +1,60 @@
+{% extends 'layouts/base.html' %}
+
+{% macro dashboard_option(title, endpoint, description=None, icon=None) %}
+    <a class="column" href="{{ url_for(endpoint) }}">
+        <div class="ui padded segment">
+            <h3 class="ui header">
+                {% if icon is not none %}
+                    <i class="{{ icon }}"></i>
+                {% endif %}
+                <div class="content">
+                    {{ title }}
+                    {% if description is not none %}
+                        <div class="sub header">
+                            {{ description }}
+                        </div>
+                    {% endif %}
+                </div>
+            </h3>
+        </div>
+    </a>
+{% endmacro %}
+
+{% block content %}
+    <div class="ui stackable centered grid container">
+        <div class="twelve wide column">
+			<h2 class="ui center aligned icon header">
+			  <i class="settings icon"></i>
+			  Home Page Settings
+			  <div class="content">
+				
+				<div class="sub header">Click on these tabs to add or edit information about your company, business or organization.</div>
+			  </div>
+			</h2>
+            <div class="ui two column stackable grid">
+                {{ dashboard_option('Social Media Links', 'admin.social_dashboard',
+                                    description='Add, view and manage social media links', icon='speakap icon') }}
+                {{ dashboard_option('About Us Details', 'admin.about_dashboard',
+                                    description='Add, view and manage about us details', icon='edit icon') }}
+                {{ dashboard_option('Brands', 'admin.brands_dashboard',
+                                    description='Add, view and manage links to other brands your company owns', icon='edit icon') }}
+                {{ dashboard_option('Testimonials', 'admin.testimonial_dashboard',
+                                    description='Add, view and manage testimonials from customers', icon='certificate icon') }}
+                {{ dashboard_option('Team', 'admin.team_dashboard',
+                                    description='Add, view and manage team member details', icon='user circle icon') }}
+                {{ dashboard_option('Call to action', 'admin.calltoaction_dashboard',
+                                    description='Add, view and manage your call to action text', icon='bullhorn icon') }}
+                {{ dashboard_option('Services', 'admin.services_dashboard',
+                                    description='Add, view and manage services offered', icon='building icon') }}
+                {{ dashboard_option('Portfolio', 'admin.portfolio_dashboard',
+                                    description='Add, view and manage your product portfolio', icon='briefcase icon') }}
+                {{ dashboard_option('HTML Code', 'admin.html_dashboard',
+                                    description='Add extra html code to the landing page', icon='file code icon') }}
+                {{ dashboard_option('News Links', 'admin.html_dashboard',
+                                    description='Add, view and manage links to media publicity', icon='newspaper icon') }}
+                {{ dashboard_option('News Links', 'admin.tracking_dashboard',
+                                    description='Add, view and manage tracking scripts e.g google analytics, facebook analytics', icon='file code icon') }}
+            </div>
+        </div>
+    </div>
+{% endblock %}

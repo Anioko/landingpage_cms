@@ -8,3 +8,6 @@ from app.blueprints.admin.call2action import call2action  # noqa
 from app.blueprints.admin.team import team  # noqa
 from app.blueprints.admin.html import html  # noqa
 from app.blueprints.admin.about import about  # noqa
+from app.blueprints.admin.brands import brands  # noqa
+from app.blueprints.admin.portfolio import portfolio  # noqa
+from app.blueprints.admin.newslink import newslink  # noqa

@@ -25,13 +25,17 @@
       ('main.about', 'About', 'info')
     ]%}
     {% set user = [] %}
-    {% if current_user.is_authenticated %}
-      {% set user = ([(current_user.role.index + '.index', current_user.role.name + ' Dashboard', 'user')]) %}
-    {% else %}
     {% if current_user.is_authenticated and current_user.role.name == "Administrator" %}
-      {% set user = ([(current_user.role.index + '.index', current_user.role.name + ' S', 'user')]) %}	
+      {% set user = ([(current_user.role.index + '.index', current_user.role.name + ' Dashboard', 'user')]) %}
+    {% else %}	
     {% endif %} 
     {{ render_menu_items( endpoints +  user ) }}
+
+    {% set frontend_settings_editor = [] %}
+    {% if current_user.is_authenticated and current_user.role.name == "Administrator" %}
+      {% set frontend_settings_editor = ([(current_user.role.index + '.frontend_dashboard', ' Frontend', 'book')]) %}
+    {% endif %} 
+    {{ render_menu_items( frontend_settings_editor ) }}	
 {% endmacro %}
 
 {# This renders the right hand side of the navigation bar. If the user is logged in, it links to 

@@ -41,7 +41,7 @@ def html_setting(id=None):
                 html_code_one = form.html_code_one.data,
                 html_code_two = form.html_code_two.data,
                 html_code_three = form.html_code_three.data,
-                html_code_four = form.html_code_four.data
+                html_code_four = form.html_code_four.data,
                 organisation_id=org_id
             )
             db.session.add(settings)
