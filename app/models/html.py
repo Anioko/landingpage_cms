@@ -11,7 +11,6 @@ class Html(db.Model):
     html_code_two = db.Column(db.Text)
     html_code_three = db.Column(db.Text)
     html_code_four = db.Column(db.Text)
-    user = db.relationship("User")
     
     organisation_id = db.Column(db.Integer, db.ForeignKey('organisations.id', ondelete="CASCADE"), nullable=False)
     owner_organisation = db.Column(db.String(128))

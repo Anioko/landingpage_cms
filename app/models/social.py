@@ -13,7 +13,6 @@ class Social(db.Model):
     tiktok_name = db.Column(db.String(25), unique=True)
     snap_chat_name = db.Column(db.String(25), unique=True)
     youtube = db.Column(db.String(25), unique=True)
-    user = db.relationship("User")
     
     organisation_id = db.Column(db.Integer, db.ForeignKey('organisations.id', ondelete="CASCADE"), nullable=False)
     owner_organisation = db.Column(db.String(128))

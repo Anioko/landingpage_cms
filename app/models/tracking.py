@@ -14,8 +14,6 @@ class Tracking(db.Model):
     other_tracking_analytics_five = db.Column(db.Text)
     other_tracking_analytics_six = db.Column(db.Text)
     
-    user = db.relationship("User")
-    
     organisation_id = db.Column(db.Integer, db.ForeignKey('organisations.id', ondelete="CASCADE"), nullable=False)
     owner_organisation = db.Column(db.String(128))
     
