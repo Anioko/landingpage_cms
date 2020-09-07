@@ -12,7 +12,7 @@ class Team(db.Model):
     job_description = db.Column(db.String)
     team_member_facebook = db.Column(db.String)
     team_member_twitter = db.Column(db.String)
-    team_member_person = db.Column(db.String)
+    team_member_picture = db.Column(db.String)
     team_member_linkedin = db.Column(db.String)
 
     organisation_id = db.Column(db.Integer, db.ForeignKey('organisations.id', ondelete="CASCADE"), nullable=False)

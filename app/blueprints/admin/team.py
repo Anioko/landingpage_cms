@@ -31,6 +31,7 @@ def team_dashboard():
 @admin_required
 def team_setting(id=None):
     """Adds information to the team page."""
+    #org_id = db.session.query(Organisation.id).count()
     settings = db.session.query(Team.id).count()
     if settings == 1:
         return redirect(url_for('admin.edit_team_setting', id=1))
@@ -40,18 +41,18 @@ def team_setting(id=None):
                 name = form.name.data,
                 job_title = form.job_title.data,
                 job_description = form.job_description.data,
-                organisation_id=org_id,                
-                team_twitter_name = form.team_twitter_name.data,
-                team_facebook_name = form.team_facebook_name.data,
-                team_instagram_name=form.team_instagram_name.data,
-                team_linkedin_name = form.team_linkedin_name.data,
-                team_member_person = form.team_member_person.data
+                #organisation_id=org_id,                
+                team_member_twitter = form.team_member_twitter.data,
+                team_member_facebook = form.team_member_facebook.data,
+                team_member_linkedin = form.team_member_linkedin.data,
+                team_member_picture = form.team_member_picture.data
+
             )
             db.session.add(settings)
             db.session.commit()
             flash('Settings successfully added', 'success')
             return redirect(url_for('admin.edit_team_setting', id=id))
-    return render_template('admin/new_team_setting.html', form=form)
+    return render_template('admin/team/new_team_setting.html', form=form)
 
 @admin.route('/edit-team-settings/<int:id>', methods=['GET', 'POST'])
 @login_required
