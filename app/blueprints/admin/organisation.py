@@ -28,19 +28,19 @@ def organization_dashboard():
 @admin.route('/add/organization/', methods=['GET', 'POST'])
 @login_required
 def create_org():
-    organization_exist = Organisation.query.filter(Organisation.id).count()
+    organization_exist = Organisation.query.get(1)
     if organization_exist is not None:
-        return redirect(url_for('admin.frontend_dashboard'))
+        return redirect(url_for('admin.edit_org', org_id=organization_exist.id))
         
     form = OrganisationForm()
     if request.method == 'POST':
         if form.validate_on_submit():
-            image_filename = images.save(request.files['logo'])
-            image_url = images.url(image_filename)
+            #image_filename = images.save(request.files['logo'])
+            #image_url = images.url(image_filename)
             org = Organisation(
                 user_id=current_user.id,
-                image_filename=image_filename,
-                image_url=image_url,
+                #image_filename=image_filename,
+                #image_url=image_url,
                 org_name=form.org_name.data,
                 org_industry=form.org_industry.data,
                 org_short_description=form.org_short_description.data,
@@ -55,13 +55,13 @@ def create_org():
             flash('Data added!', 'success')
             logo = Organisation.query.filter(Organisation.logos).first()
             if logo is None:
-                return redirect(url_for('organisations.logo_upload'))
-            return redirect(url_for('organisations.org_home'))
+                return redirect(url_for('admin.logo_upload'))
+            return redirect(url_for('admin.frontend_dashboard'))
         else:
             flash('Error! Data was not added.', 'error')
-    return render_template('admin/create_org.html', form=form)
+    return render_template('admin/organisations/create_org.html', form=form)
 
-@admin.route('/<int:org_id>/edit', methods=['GET', 'POST'])
+@admin.route('/organization/<int:org_id>/edit', methods=['GET', 'POST'])
 @login_required
 @admin_required
 def edit_org(org_id):
@@ -75,4 +75,4 @@ def edit_org(org_id):
             db.session.commit()
             flash('Settings successfully edited', 'success')
             return redirect(url_for('admin.frontend_dashboard'))
-    return render_template('admin/edit_org_setting.html', form=form)
+    return render_template('admin/organisations/edit_org.html', form=form)

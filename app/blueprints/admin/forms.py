@@ -516,7 +516,7 @@ class LandingSettingForm(FlaskForm):
     html_code_four = TextAreaField('Insert raw html')
     submit = SubmitField('Submit')
 
-class LandingImageForm(FlaskForm):
+class PhotoForm(FlaskForm):
 
     image = FileField('Image', validators=[Optional(), FileAllowed(images, 'Images only!')])
     submit = SubmitField('Submit')

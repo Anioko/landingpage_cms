@@ -8,6 +8,7 @@ from flask_mail import Mail
 from flask_rq import RQ
 from flask_sqlalchemy import SQLAlchemy
 from flask_wtf import CSRFProtect
+from flask_uploads import UploadSet, configure_uploads, IMAGES
 
 from app.assets import app_css, app_js, vendor_css, vendor_js
 from config import config as Config
@@ -18,6 +19,8 @@ mail = Mail()
 db = SQLAlchemy()
 csrf = CSRFProtect()
 compress = Compress()
+images = UploadSet('images', IMAGES)
+docs = UploadSet('docs', ('rtf', 'odf', 'ods', 'gnumeric', 'abw', 'doc', 'docx', 'xls', 'xlsx', 'pdf'))
 
 # Set up Flask-Login
 login_manager = LoginManager()
@@ -35,6 +38,13 @@ def create_app(config):
     app.config.from_object(Config[config_name])
     app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
     # not using sqlalchemy event system, hence disabling it
+    app.config['UPLOADED_IMAGES_DEST'] = '../../../app/static/images/' if \
+        not os.environ.get('UPLOADED_IMAGES_DEST') else os.path.dirname(os.path.realpath(__file__)) + os.environ.get(
+        'UPLOADED_IMAGES_DEST')
+    app.config['UPLOADED_DOCS_DEST'] = '../../../app/static/docs/' if \
+        not os.environ.get('UPLOADED_DOCS_DEST') else os.path.dirname(os.path.realpath(__file__)) + os.environ.get(
+        'UPLOADED_DOCS_DEST')
+    app.config['docs'] = app.config['UPLOADED_DOCS_DEST']
 
     Config[config_name].init_app(app)
 
@@ -45,6 +55,8 @@ def create_app(config):
     csrf.init_app(app)
     compress.init_app(app)
     RQ(app)
+    configure_uploads(app, (images))
+    configure_uploads(app, docs)
 
     # Register Jinja template functions
     from .utils import register_template_utils

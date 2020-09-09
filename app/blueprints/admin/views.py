@@ -31,7 +31,7 @@ def index():
     """Admin dashboard page."""
     return render_template('admin/index.html')
 
-@admin.route('/settings/dashboard/')
+@admin.route('/frontend/dashboard/')
 @login_required
 @admin_required
 def frontend_dashboard():

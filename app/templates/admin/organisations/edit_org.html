@@ -9,13 +9,13 @@
 {% block content %}
     <div class="ui stackable centered grid container">
         <div class="twelve wide column">
-            <a class="ui basic compact button" href="{{ url_for('organisations.org_home') }}">
+            <a class="ui basic compact button" href="{{ url_for('admin.frontend_dashboard') }}">
                 <i class="caret left icon"></i>
-                Back to Organisations List
+                Back to Frontend Dashboard
             </a>
             <h2 class="ui header">
-                Register your Organization
-                <div class="sub header">Set up an account</div>
+                Edit your Organization
+                <span class="sub header">Set up an account</span>
             </h2>
 
             {% set flashes = {
@@ -30,9 +30,6 @@
             <div class="two fields">
                 {{ f.render_form_field(form.org_name) }}
                 {{ f.render_form_field(form.org_industry) }}
-            </div>
-            <div class="field">
-                {{ f.render_form_field(form.logo) }}
             </div>
             <div class="four fields">
                 {{ f.render_form_field(form.org_website) }}
