@@ -25,46 +25,55 @@ def portfolio_dashboard():
     """Portfolio dashboard page."""
     return render_template('admin/portfolio_settings_dashboard.html')
 
-@admin.route('/portfolio-settings', methods=['GET', 'POST'])
-@admin.route('/edit/<int:id>', methods=['GET', 'POST'])
+@admin.route('/add/portfolio', methods=['Get', 'POST'])
 @login_required
-@admin_required
-def portfolio_setting(id=None):
-    """Adds information to the portfolio page."""
-    settings = db.session.query(Portfolio.id).count()
-    if settings == 1:
-        return redirect(url_for('admin.edit_portfolio_setting', id=1))
+def add_portfolio():
+    org = Organisation.query.filter_by(user_id=current_user.id).first_or_404()
     form = PortfolioForm()
-    if request.method == 'POST':
-        if form.validate_on_submit():
-            image_filename = None
-            if request.files['photo']:
-                image_filename = images.save(request.files['photo'])
-            settings = Portfolio(
-                portfolio_name = form.portfolio_name.data,
-                portfolio_title = form.portfolio_title.data,
-                portfolio_description = form.portfolio_description.data,
-                image_filename=image_filename,
-                organisation_id=org_id,               
-            )
-            db.session.add(settings)
-            db.session.commit()
-            flash('Settings successfully added', 'success')
-            return redirect(url_for('admin.edit_portfolio_setting', id=id))
-    return render_template('admin/new_portfolio_setting.html', form=form)
 
-@admin.route('/edit-portfolio-settings/<int:id>', methods=['GET', 'POST'])
+    if request.method == 'POST' and 'image' in request.files:
+        image = images.save(request.files['image'])
+        appt = Portfolio(image=image,
+                      owner_organisation=org.org_name,
+                      organisation_id=org.id,
+                      portfolio_name = form.portfolio_name.data,
+                      portfolio_title = form.portfolio_title.data,
+                      portfolio_description = form.portfolio_description.data
+                          )
+        db.session.add(appt)
+        db.session.commit()
+        flash('Portfolio added!', 'success')
+        return redirect(url_for('admin.edit_portfolio', portfolio_id=org.id))
+    return render_template('admin/portfolio/add_portfolio.html', form=form, org=org)
+
+
+@admin.route('/<int:portfolio_id>/edit', methods=['GET', 'POST'])
 @login_required
-@admin_required
-def edit_portfolio_setting(id):
-    """Edit information to the portfolio page."""
-    settings = Portfolio.query.get(id)
+def edit_portfolio(portfolio_id):
+    org = Organisation.query.filter_by(user_id=current_user.id).first_or_404()
+    settings = Portfolio.query.filter_by(id=portfolio_id).first_or_404()
+    photo = Portfolio.query.filter_by(id=portfolio_id).first_or_404()
+    url = images.url(photo.image)
     form = PortfolioForm(obj=settings)
-    
-    if request.method == 'POST':
-            form.populate_obj(settings)
-            db.session.add(settings)
-            db.session.commit()
-            flash('Settings successfully edited', 'success')
-            return redirect(url_for('admin.portfolio_dashboard'))
-    return render_template('admin/edit_portfolio_setting.html', form=form)
+    if request.method == 'POST' and 'image' in request.files:
+        image = images.save(request.files['image'])
+        appt = Portfolio(image=image,
+                      owner_organisation=org.org_name,
+                      organisation_id=org.id,
+                      portfolio_name = form.portfolio_name.data,
+                      portfolio_title = form.portfolio_title.data,
+                      portfolio_description = form.portfolio_description.data
+                          )
+        db.session.add(appt)
+        db.session.commit()
+    #if request.method == 'POST' and 'image' in request.files:
+       # image = images.save(request.files['image'])
+        #form.populate_obj(settings)
+        #db.session.add(settings)
+        #db.session.commit()
+        flash('Data edited!', 'success')
+        return redirect(url_for('admin.frontend_dashboard'))
+    else:
+        flash('Error! Data was not added.', 'error')
+    return render_template('admin/portfolio/edit_portfolio.html', form=form, url=url)
+

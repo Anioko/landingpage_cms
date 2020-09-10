@@ -12,4 +12,4 @@ from app.blueprints.admin.brands import brands  # noqa
 from app.blueprints.admin.portfolio import portfolio  # noqa
 from app.blueprints.admin.newslink import newslink  # noqa
 from app.blueprints.admin.organisation import organisation  # noqa
-from app.blueprints.admin.upload import upload  # noqa
+from app.blueprints.admin.upload import image_upload  # noqa

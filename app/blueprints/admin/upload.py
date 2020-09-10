@@ -26,7 +26,7 @@ def uploads_dashboard():
     return render_template('admin/uploads_settings_dashboard.html')
 
 @admin.route('/upload', methods=['GET', 'POST'])
-def upload():
+def image_upload():
     
     owner_organisation = db.session.query(Organisation).filter_by(user_id=current_user.id).first()
     form = PhotoForm()

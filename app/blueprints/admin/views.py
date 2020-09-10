@@ -19,7 +19,7 @@ from app.blueprints.admin.forms import (
 )
 from app.decorators import admin_required
 from app.email import send_email
-from app.models import EditableHTML, Role, User
+from app.models import EditableHTML, Role, User, Organisation
 
 admin = Blueprint('admin', __name__)
 
@@ -36,7 +36,8 @@ def index():
 @admin_required
 def frontend_dashboard():
     """Frontend dashboard page."""
-    return render_template('admin/frontend_settings_dashboard.html')
+    org = Organisation.query.filter_by(id=current_user.id).first_or_404()
+    return render_template('admin/frontend_settings_dashboard.html', org=org)
 
 @admin.route('/new-user', methods=['GET', 'POST'])
 @login_required

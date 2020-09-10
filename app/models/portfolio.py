@@ -11,8 +11,7 @@ class Portfolio(db.Model):
     portfolio_title = db.Column(db.String)
     portfolio_description = db.Column(db.String)
     
-    image_filename = db.Column(db.String, default=None, nullable=True)
-    image_url = db.Column(db.String, default=None, nullable=True)
+    image = db.Column(db.String, default=None, nullable=True)
     organisation_id = db.Column(db.Integer, db.ForeignKey('organisations.id', ondelete="CASCADE"), nullable=False)
     owner_organisation = db.Column(db.String(128))
 

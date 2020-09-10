@@ -462,11 +462,11 @@ class Call2actionForm(FlaskForm):
 
 #####Frontend Forms Starts #####
 class PortfolioForm(FlaskForm):
-    portfolio_name = StringField('Mercedes e.g Volvocars', validators=[InputRequired(), Length(1, 25)])
+    portfolio_name = StringField('Example Mercedes or Bicycle', validators=[InputRequired(), Length(1, 25)])
     portfolio_title = StringField('Automobiles', validators=[InputRequired(), Length(1, 50)])
-    portfolio_description = StringField('Website description', validators=[InputRequired(), Length(1, 180)])
+    portfolio_description = TextAreaField('Website description', validators=[InputRequired(), Length(1, 180)])
  
-    photo = FileField('Photo', validators=[InputRequired(), FileAllowed(images, 'Images only!')])
+    image = FileField('Image', validators=[InputRequired(), FileAllowed(images, 'Images only!')])
     submit = SubmitField('Submit') 
  
 #####Frontend Forms Starts #####
