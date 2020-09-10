@@ -76,3 +76,23 @@ def edit_org(org_id):
             flash('Settings successfully edited', 'success')
             return redirect(url_for('admin.frontend_dashboard'))
     return render_template('admin/organisations/edit_org.html', form=form)
+
+
+@admin.route('/organization', defaults={'page': 1}, methods=['GET'])
+@admin.route('/organization/<int:page>', methods=['GET'])
+@login_required
+@admin_required
+def orgs(page):
+    orgs = Organisation.query.paginate(page, per_page=100)
+    return render_template('admin/organisations/browse.html', orgs=orgs)
+
+
+@admin.route('/organization/<int:org_id>/_delete', methods=['POST'])
+@login_required
+@admin_required
+def delete_org(org_id):
+    org = Organisation.query.filter_by(id=org_id).first()
+    db.session.delete(org)
+    db.session.commit()
+    flash('Successfully deleted Organisation.', 'success')
+    return redirect(url_for('admin.orgs'))
