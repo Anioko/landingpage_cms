@@ -25,31 +25,35 @@ def preview():
     """Preview landing page."""
     appt = Organisation.query.get(1)
     about = About.query.get(1)
-    team = Team.query.get(1)
-    portfolio = Portfolio.query.get(1)
-    services = Services.query.get(1)
-    testimonial = Testimonial.query.get(1)
+    team = Team.query.all()
+    portfolio = Portfolio.query.all()
+    services = Service.query.all()
+    testimonial = Testimonial.query.all()
     call2action = Call2action.query.get(1)
     socials = Social.query.get(1)
     if appt.org_industry == "Small Business":
         return render_template('public/enno/index.html',
-                               appt=appt, about=about, portfolio=porfolio,
+                               appt=appt, about=about, portfolio=portfolio,
                                services=services, testimonial=testimonial,
-                               call2action=call2action, socials=socials)
+                               call2action=call2action, socials=socials,
+                               team=team)
     elif appt.org_industry == "Church":
         return render_template('public/dewi/index.html',
                                appt=appt, about=about, portfolio=porfolio,
                                services=services, testimonial=testimonial,
-                               call2action=call2action, socials=socials)
+                               call2action=call2action, socials=socials,
+                               team=team)
     
     elif appt.org_industry == "Restaurant":
         return render_template('public/delicious/index.html',
                                appt=appt, about=about, portfolio=porfolio,
                                services=services, testimonial=testimonial,
-                               call2action=call2action, socials=socials)
+                               call2action=call2action, socials=socials,
+                               team=team)
     else:
         return render_template('public/onepage/index.html',
                                appt=appt, about=about, portfolio=porfolio,
                                services=services, testimonial=testimonial,
-                               call2action=call2action, socials=socials)
+                               call2action=call2action, socials=socials,
+                               team=team)
 

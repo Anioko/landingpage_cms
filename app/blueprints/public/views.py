@@ -3,7 +3,7 @@ from flask_login import current_user
 from validate_email import validate_email
 
 from app import db, recaptcha
-from app.blueprints.account.forms import ContactForm
+from app.blueprints.public.forms import ContactForm
 from app.libs.spam_detector import SpamDetector
 from app.models import EditableHTML, ContactMessage
 from app.blueprints.public.forms import PublicContactForm

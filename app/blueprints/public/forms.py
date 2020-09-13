@@ -9,3 +9,7 @@ class PublicContactForm(FlaskForm):
     email = EmailField('Email', validators=[InputRequired(), Length(1, 64), Email()])
     text = TextAreaField('Message', validators=[InputRequired()])
     submit = SubmitField('Send')
+
+class ContactForm(FlaskForm):
+    text = TextAreaField('Message', validators=[InputRequired()])
+    submit = SubmitField('Send')

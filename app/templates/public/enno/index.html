@@ -13,10 +13,22 @@
       <nav class="nav-menu d-none d-lg-block">
         <ul>
           <li class="active"><a href="index.html">Home</a></li>
+		 {% if about.id is not none %}
           <li><a href="#about">About</a></li>
+		  {% else %}
+		  {% endif %}
+		 {% if services.id is not none %}
           <li><a href="#services">Services</a></li>
+		  {% else %}
+		  {% endif %}
+		 {% if portfolio.id is not none %}
           <li><a href="#portfolio">Portfolio</a></li>
+		  {% else %}
+		  {% endif %}
+		 {% if team.id is not none %}
           <li><a href="#team">Team</a></li>
+		  {% else %}
+		  {% endif %}
           <li class="drop-down"><a href="">Drop Down</a>
             <ul>
               <li><a href="#">Drop Down 1</a></li>
@@ -34,7 +46,7 @@
               <li><a href="#">Drop Down 4</a></li>
             </ul>
           </li>
-          <li><a href="#contact">Contact</a></li>
+          <li><a href="{{ url_for('public.contact') }}">Contact</a></li>
 
         </ul>
       </nav><!-- .nav-menu -->
@@ -43,6 +55,30 @@
 
     </div>
   </header><!-- End Header -->
+  
+ 		 {% if appt.id is not none %}
+   <!-- ======= Hero Section ======= -->
+  <section id="hero" class="d-flex align-items-center">
+
+    <div class="container">
+      <div class="row">
+        <div class="col-lg-6 pt-5 pt-lg-0 order-2 order-lg-1 d-flex flex-column justify-content-center">
+          <h1>Elegant and creative solutions</h1>
+          <h2>We are team of talanted designers making websites with Bootstrap</h2>
+          <div class="d-flex">
+            <a href="#about" class="btn-get-started scrollto">Get Started</a>
+            <a href="https://www.youtube.com/watch?v=jDDaplaOz7Q" class="venobox btn-watch-video" data-vbtype="video" data-autoplay="true"> Watch Video <i class="icofont-play-alt-2"></i></a>
+          </div>
+        </div>
+        <div class="col-lg-6 order-1 order-lg-2 hero-img">
+          <img src="assets/img/hero-img.png" class="img-fluid animated" alt="">
+        </div>
+      </div>
+    </div>
+
+  </section><!-- End Hero --> 
+		  {% else %}
+		  {% endif %} 
   
     <div class="ui text container">
       <h1>Hello {% if not (current_user.is_authenticated) %} world {% else %} {{ current_user.full_name }} {% endif %},</h1>
@@ -57,4 +93,123 @@
 
         <p>{{ lipsum(6) }}</p>
     </div>
+
+    <!-- ======= Cta Section ======= -->
+    <section id="cta" class="cta">
+      <div class="container">
+
+        <div class="text-center">
+          <h3>Call To Action</h3>
+          <p> Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
+          <a class="cta-btn" href="#">Call To Action</a>
+        </div>
+
+      </div>
+    </section><!-- End Cta Section -->
+
+{% if team.id is not none %}
+    <!-- ======= Team Section ======= -->
+    <section id="team" class="team section-bg">
+      <div class="container">
+
+        <div class="section-title">
+          <span>Team</span>
+          <h2>Team</h2>
+          <p>Sit sint consectetur velit quisquam cupiditate impedit suscipit alias</p>
+        </div>
+
+        <div class="row">
+		  {% for appt in team %}
+          <div class="col-lg-4 col-md-6 d-flex align-items-stretch">
+            <div class="member">
+              <img src="../appstatic/photo/{{ appt.image}}" alt="">
+              <h4>{{ appt.name}}</h4>
+              <span>{{ appt.job_title}}</span>
+              <p>
+			{{ appt.job_description}}
+              </p>
+              <div class="social">
+                <a href="https://twitter.com/{{ appt.team_member_twitter}}"><i class="icofont-twitter"></i></a>
+                <a href="https://facebook.com/{{ appt.team_member_facebook}}"><i class="icofont-facebook"></i></a>
+                <a href="https://instagram.com/{{ appt.team_member_instagram}}"><i class="icofont-instagram"></i></a>
+                <a href="https://linkedin.com/{{ appt.team_member_linkedin}}"><i class="icofont-linkedin"></i></a>
+              </div>
+            </div>
+          </div>
+		  			 {% endfor %}
+        </div>
+
+      </div>
+    </section><!-- End Team Section -->
+			  		  {% else %}
+		  {% endif %}
+  <!-- ======= Footer ======= -->
+  <footer id="footer">
+
+    <div class="footer-top">
+
+      <div class="container">
+
+        <div class="row  justify-content-center">
+          <div class="col-lg-6">
+            <h3>eNno</h3>
+            <p>Et aut eum quis fuga eos sunt ipsa nihil. Labore corporis magni eligendi fuga maxime saepe commodi placeat.</p>
+          </div>
+        </div>
+
+        <div class="row footer-newsletter justify-content-center">
+          <div class="col-lg-6">
+            <form action="" method="post">
+              <input type="email" name="email" placeholder="Enter your Email"><input type="submit" value="Subscribe">
+            </form>
+          </div>
+        </div>
+
+        <div class="social-links">
+
+		{% if socials.twitter_name %}
+          <a href="https://www.twitter.com/{{socials.twitter_name}}" class="twitter"><i class="bx bxl-twitter"></i></a>
+		  		  {% else %}
+		  {% endif %}
+		{% if socials.facebook_name %}		  		  
+          <a href="https://www.facebook.com/{{socials.facebook_name}}" class="facebook"><i class="bx bxl-facebook"></i></a>
+		  		  {% else %}
+		  {% endif %}
+			{% if socials.instagram_name %}
+          <a href="https://www.instagram.com/{{socials.instagram_name}}" class="instagram"><i class="bx bxl-instagram"></i></a>
+		  		  {% else %}
+		  {% endif %}
+		  		{% if socials.linkedin_name %}
+          <a href="https://www.linkedin.com/{{socials.linkedin_name}}" class="linkedin"><i class="bx bxl-linkedin"></i></a>
+		  		  {% else %}
+		  {% endif %}
+		 		{% if socials.tiktok_name %}
+          <a href="https://www.tiktok.com/{{socials.tiktok_name}}" class="tiktok"><i class="bx bxl-tiktok"></i></a>
+		  		  {% else %}
+		  {% endif %}
+		 		{% if socials.snap_chat_name %}
+          <a href="https://www.snapchat.com/{{socials.snap_chat_name}}" class="snapchat"><i class="bx bxl-snapchat"></i></a>
+		  		  {% else %}
+		  {% endif %}
+		 		{% if socials.youtube %}
+          <a href="https://www.youtube.com/{{socials.youtube}}" class="youtube"><i class="bx bxl-youtube"></i></a>
+		  {% else %}
+		  {% endif %} 
+        </div>
+      </div>
+    </div>
+
+    <div class="container footer-bottom clearfix">
+      <div class="copyright">
+        &copy; Copyright <strong><span>eNno</span></strong>. All Rights Reserved
+      </div>
+      <div class="credits">
+        <!-- All the links in the footer should remain intact. -->
+        <!-- You can delete the links only if you purchased the pro version. -->
+        <!-- Licensing information: https://bootstrapmade.com/license/ -->
+        <!-- Purchase the pro version with working PHP/AJAX contact form: https://bootstrapmade.com/enno-free-simple-bootstrap-template/ -->
+        Designed by <a href="https://bootstrapmade.com/">BootstrapMade</a>
+      </div>
+    </div>
+  </footer><!-- End Footer -->
 {% endblock %}

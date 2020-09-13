@@ -9,6 +9,7 @@ from flask_rq import RQ
 from flask_sqlalchemy import SQLAlchemy
 from flask_wtf import CSRFProtect
 from flask_uploads import UploadSet, configure_uploads, IMAGES
+from flask_recaptcha import ReCaptcha
 
 from app.assets import app_css, app_js, vendor_css, vendor_js
 from config import config as Config
@@ -26,6 +27,8 @@ docs = UploadSet('docs', ('rtf', 'odf', 'ods', 'gnumeric', 'abw', 'doc', 'docx',
 login_manager = LoginManager()
 login_manager.session_protection = 'strong'
 login_manager.login_view = 'account.login'
+
+recaptcha = ReCaptcha()
 
 
 def create_app(config):
@@ -89,6 +92,9 @@ def create_app(config):
 
     from .blueprints.main import main as main_blueprint
     app.register_blueprint(main_blueprint)
+
+    from .blueprints.public import public as public_blueprint
+    app.register_blueprint(public_blueprint)
 
     from .blueprints.account import account as account_blueprint
     app.register_blueprint(account_blueprint, url_prefix='/account')
