@@ -9,13 +9,11 @@
 {% block content %}
     <div class="ui stackable centered grid container">
         <div class="twelve wide column">
-            <a class="ui basic compact button" href="{{ url_for('admin.frontend_dashboard') }}">
-                <i class="caret left icon"></i>
-                Back to Frontend Dashboard
-            </a>
+
             <h2 class="ui header">
-                Add Team Member to Landing FrontPage
-                <div class="sub header">Add team member details to the landing page</div>
+                Upload a logo for your organisation
+                <div class="sub header"><p> Please kindly upload your logo before you proceed. </p>
+                </div>
             </h2>
 
             {% set flashes = {
@@ -27,25 +25,19 @@
 
             {{ f.begin_form(form, flashes) }}
 
-            <div class="two fields">
-                {{ f.render_form_field(form.name) }}
-                {{ f.render_form_field(form.job_title) }}
-            </div>
             <div class="field">
-                {{ f.render_form_field(form.job_description) }}
+                {{ f.render_form_field(form.logo) }}
+
             </div>
-            <div class="field">
-                {{ f.render_form_field(form.image) }}
-            </div>
-                <div class="ui small image" style="flex-grow: 0">
-                    <img src="{{url}}">
+
+            {% if form.password %}
+
+                <div class="two fields">
+                    {{ f.render_form_field(form.password) }}
+                    {{ f.render_form_field(form.password2) }}
                 </div>
-            <div class="four fields">
-                {{ f.render_form_field(form.team_member_twitter) }}
-                {{ f.render_form_field(form.team_member_facebook) }}
-                {{ f.render_form_field(form.team_member_linkedin) }}
-                {{ f.render_form_field(form.team_member_instagram) }}
-            </div>
+
+            {% endif %}
 
             {{ f.form_message(flashes['error'], header='Something went wrong.', class='error') }}
             {{ f.form_message(flashes['warning'], header='Check your email.', class='warning') }}
@@ -57,7 +49,9 @@
             {% endfor %}
 
             {{ f.end_form() }}
-
+            {% if form.password %}
+                {{ check.password_check('password', 0) }}
+            {% endif %}
         </div>
     </div>
 {% endblock %}

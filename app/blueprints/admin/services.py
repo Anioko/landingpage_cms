@@ -23,28 +23,61 @@ photos = UploadSet('photos', IMAGES)
 @admin_required
 def services_dashboard():
     """Services dashboard page."""
-    return render_template('admin/services_settings_dashboard.html')
+    return render_template('admin/services/service_settings_dashboard.html')
 
-@admin.route('/services-settings', methods=['GET', 'POST'])
-@admin.route('/edit/<int:id>', methods=['GET', 'POST'])
+
+
+@admin.route('/add/service', methods=['Get', 'POST'])
+@login_required
+def add_service():
+    org = Organisation.query.get(1)
+    form = ServiceForm()
+    if request.method == 'POST':
+        appt = Service(owner_organisation=org.org_name,
+                    organisation_id=org.id,
+                    service_name = form.service_name.data,
+                    service_icon = form.service_icon.data,
+                    service_description = form.service_description.data
+                          )
+        db.session.add(appt)
+        db.session.commit()
+        flash('Service added!', 'success')
+        return redirect(url_for('admin.services'))
+    return render_template('admin/services/add_service.html', form=form, org=org)
+
+
+@admin.route('/<int:service_id>/service/edit', methods=['GET', 'POST'])
+@login_required
+def edit_service(service_id):
+    settings = Service.query.filter_by(id=service_id).first_or_404()
+    form = ServiceForm(obj=settings)
+    if request.method == 'POST':
+        form.populate_obj(settings)
+        db.session.add(settings)
+        db.session.commit()
+        flash('Data edited!', 'success')
+        return redirect(url_for('admin.services_dashboard'))
+    else:
+        flash('Error! Data was not added.', 'error')
+    return render_template('admin/services/edit_service.html', form=form)
+
+
+@admin.route('/services', defaults={'page': 1}, methods=['GET'])
+@admin.route('/services/<int:page>', methods=['GET'])
 @login_required
 @admin_required
-def services_setting(id=None):
-    """Adds information to the services page."""
-    settings = db.session.query(Services.id).count()
-    if settings == 1:
-        return redirect(url_for('admin.edit_services_setting', id=1))
-    form = ServicesForm()
-    if request.method == 'POST':
-            settings = Services(
-                service_name = form.service_name.data,
-                service_intro = form.service_intro.data,
-                service_description = form.service_description.data,
-                organisation_id=org_id   
-            )
-            db.session.add(settings)
-            db.session.commit()
-            flash('Settings successfully added', 'success')
-            return redirect(url_for('admin.edit_services_setting', id=id))
-    return render_template('admin/new_services_setting.html', form=form)
+def services(page):
+    services = Service.query.paginate(page, per_page=100)
+    return render_template('admin/services/browse.html', services=services)
+
+
+@admin.route('/service/<int:service_id>/_delete', methods=['POST'])
+@login_required
+@admin_required
+def delete_service(service_id):
+    service = Service.query.filter_by(id=service_id).first()
+    db.session.delete(service)
+    db.session.commit()
+    flash('Successfully deleted a service member.', 'success')
+    return redirect(url_for('admin.services'))
 

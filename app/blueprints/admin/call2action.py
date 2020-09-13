@@ -25,39 +25,40 @@ def calltoaction_dashboard():
     """Frontend dashboard page."""
     return render_template('admin/frontend_settings_dashboard.html')
 
-@admin.route('/calltoaction-settings', methods=['GET', 'POST'])
-@admin.route('/edit/<int:id>', methods=['GET', 'POST'])
-@login_required
-@admin_required
-def calltoaction_setting(id=None):
-    """Adds information to the calltoaction."""
-    settings = db.session.query(Calltoaction.id).count()
-    if settings == 1:
-        return redirect(url_for('admin.edit_calltoaction_setting', id=1))
-    form = CalltoactionForm()
-    if request.method == 'POST':
-            settings = Calltoaction(
-                description = form.description.data,
-                organisation_id=org_id,
-                call2action_url = form.call2action_url.data,
-            )
-            db.session.add(settings)
-            db.session.commit()
-            flash('Settings successfully added', 'success')
-            return redirect(url_for('admin.edit_call2action_setting', id=id))
-    return render_template('admin/new_call2action_setting.html', form=form)
 
-@admin.route('/edit-call2action-settings/<int:id>', methods=['GET', 'POST'])
+@admin.route('/add/call2action', methods=['Get', 'POST'])
 @login_required
-@admin_required
-def edit_call2action_setting(id):
-    """Edit information to the landing page."""
-    settings = Call2action.query.get(id)
+def add_call2action():
+    org = Organisation.query.get(1)
+    form = Call2actionForm()
+
+    if request.method == 'POST':
+        
+        appt = Call2action(owner_organisation=org.org_name,
+                     organisation_id=org.id,
+                     description = form.description.data,
+                     call2action_url = form.call2action_url.data,
+                     action_title = form.action_title.data,
+                     action_button_text = form.action_button_text.data
+                          )
+        db.session.add(appt)
+        db.session.commit()
+        flash('Call2action added!', 'success')
+        return redirect(url_for('admin.edit_call2action', call2action_id=org.id))
+    return render_template('admin/call2action/add_call2action.html', form=form, org=org)
+
+
+@admin.route('/<int:call2action_id>/call2action/edit', methods=['GET', 'POST'])
+@login_required
+def edit_call2action(call2action_id):
+    settings = Call2action.query.filter_by(id=call2action_id).first_or_404()
     form = Call2actionForm(obj=settings)    
     if request.method == 'POST':
-            form.populate_obj(settings)
-            db.session.add(settings)
-            db.session.commit()
-            flash('Settings successfully edited', 'success')
-            return redirect(url_for('admin.frontend_dashboard'))
-    return render_template('admin/edit_call2action_setting.html', form=form)
+        form.populate_obj(settings)
+        db.session.add(settings)
+        db.session.commit()
+        flash('Data edited!', 'success')
+        return redirect(url_for('admin.frontend_dashboard'))
+    else:
+        flash('Error! Data was not added.', 'error')
+    return render_template('admin/call2action/edit_call2action.html', form=form)

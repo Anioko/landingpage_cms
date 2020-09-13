@@ -6,8 +6,9 @@ class Testimonial(db.Model):
     __tablename__ = 'testimonials'
     id = db.Column(db.Integer, primary_key=True)
     person_name = db.Column(db.String)
-    testimonial_title = db.Column(db.String)
+    job_title = db.Column(db.String)
     description = db.Column(db.Text)
+    image = db.Column(db.String, default=None, nullable=True)
 
     organisation_id = db.Column(db.Integer, db.ForeignKey('organisations.id', ondelete="CASCADE"), nullable=False)
     owner_organisation = db.Column(db.String(128))

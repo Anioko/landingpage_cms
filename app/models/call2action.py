@@ -7,7 +7,9 @@ from time import time
 class Call2action(db.Model):
     __tablename__ = 'call2actions'
     id = db.Column(db.Integer, primary_key=True)
+    action_title = db.Column(db.String)
     description = db.Column(db.String)
+    action_button_text = db.Column(db.String)
     call2action_url = db.Column(db.String, default=None, nullable=True)
 
     organisation_id = db.Column(db.Integer, db.ForeignKey('organisations.id', ondelete="CASCADE"), nullable=False)

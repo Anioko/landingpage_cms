@@ -28,15 +28,15 @@
 
                     {{ f.render_form_field(form.name) }}
                 <div class="three fields">
-                    {{ f.render_form_field(form.team_member_facebook) }}
-                    {{ f.render_form_field(form.team_member_twitter) }}
-                    {{ f.render_form_field(form.team_member_linkedin) }}
+                    {{ f.render_form_field(form.testimonial_member_facebook) }}
+                    {{ f.render_form_field(form.testimonial_member_twitter) }}
+                    {{ f.render_form_field(form.testimonial_member_linkedin) }}
                 </div>
                 <div class="two fields">
                     {{ f.render_form_field(form.job_title) }}
                     {{ f.render_form_field(form.job_description) }}
                 </div>
-				{{ f.render_form_field(form.team_member_picture ) }}
+				{{ f.render_form_field(form.testimonial_member_picture ) }}
 
                 {{ f.form_message(flashes['error'], header='Something went wrong.', class='error') }}
                 {{ f.form_message(flashes['warning'], header='Check your email.', class='warning') }}

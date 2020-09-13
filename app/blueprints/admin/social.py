@@ -17,52 +17,40 @@ photos = UploadSet('photos', IMAGES)
 
 
 
-
-@admin.route('/settings/social/')
+@admin.route('/add/social', methods=['Get', 'POST'])
 @login_required
-@admin_required
-def social_dashboard():
-    """Social dashboard page."""
-    return render_template('admin/social_settings_dashboard.html')
-
-@admin.route('/social-settings', methods=['GET', 'POST'])
-@admin.route('/edit/<int:id>', methods=['GET', 'POST'])
-@login_required
-@admin_required
-def social_setting(id=None):
-    """Adds information to the social."""
-    settings = db.session.query(About.id).count()
-    if settings == 1:
-        return redirect(url_for('admin.edit_social_setting', id=1))
-    form = AboutForm()
+def add_social():
+    org = Organisation.query.get(1)
+    form = SocialForm()
     if request.method == 'POST':
-            settings = About(
-                twitter_name = form.twitter_name.data,
-                facebook_name = form.facebook_name.data,
-                instagram_name=form.instagram_name.data,
-                linkedin_name = form.linkedin_name.data,
-                tiktok_name = form.tiktok_name.data,
-                snap_chat_name = form.snap_chat_name.data,
-                youtube = form.youtube.data,
-                organisation_id=org_id,
-            )
-            db.session.add(settings)
-            db.session.commit()
-            flash('Settings successfully added', 'success')
-            return redirect(url_for('admin.edit_social_setting', id=id))
-    return render_template('admin/new_social_setting.html', form=form)
+        appt = Social(owner_organisation=org.org_name,
+                      organisation_id=org.id,
+                      twitter_name = form.twitter_name.data,
+                      facebook_name = form.facebook_name.data,
+                      instagram_name=form.instagram_name.data,
+                      linkedin_name = form.linkedin_name.data,
+                      tiktok_name = form.tiktok_name.data,
+                      snap_chat_name = form.snap_chat_name.data
+                          )
+        db.session.add(appt)
+        db.session.commit()
+        flash('Social added!', 'success')
+        return redirect(url_for('admin.edit_social', social_id=org.id))
+    return render_template('admin/social/add_social.html', form=form, org=org)
 
-@admin.route('/edit-social-settings/<int:id>', methods=['GET', 'POST'])
+
+@admin.route('/<int:social_id>/social/edit', methods=['GET', 'POST'])
 @login_required
-@admin_required
-def edit_social_setting(id):
-    """Edit information to the landing page."""
-    settings = About.query.get(id)
-    form = AboutForm(obj=settings)    
+def edit_social(social_id):
+    settings = Social.query.filter_by(id=social_id).first_or_404()
+    form = SocialForm(obj=settings)    
     if request.method == 'POST':
-            form.populate_obj(settings)
-            db.session.add(settings)
-            db.session.commit()
-            flash('Settings successfully edited', 'success')
-            return redirect(url_for('admin.frontend_dashboard'))
-    return render_template('admin/edit_social_setting.html', form=form)
+        form.populate_obj(settings)
+        db.session.add(settings)
+        db.session.commit()
+        flash('Data edited!', 'success')
+        return redirect(url_for('admin.frontend_dashboard'))
+    else:
+        flash('Error! Data was not added.', 'error')
+    return render_template('admin/social/edit_social.html', form=form)
+

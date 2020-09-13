@@ -23,7 +23,7 @@ photos = UploadSet('photos', IMAGES)
 @admin_required
 def team_dashboard():
     """Team dashboard page."""
-    return render_template('admin/team_settings_dashboard.html')
+    return render_template('admin/team/team_settings_dashboard.html')
 
 
 @admin.route('/add/team', methods=['Get', 'POST'])

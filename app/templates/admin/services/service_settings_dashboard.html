@@ -1,0 +1,42 @@
+{% extends 'layouts/base.html' %}
+
+{% macro dashboard_option(title, endpoint, description=None, icon=None) %}
+    <a class="column" href="{{ url_for(endpoint) }}">
+        <div class="ui padded segment">
+            <h3 class="ui header">
+                {% if icon is not none %}
+                    <i class="{{ icon }}"></i>
+                {% endif %}
+                <div class="content">
+                    {{ title }}
+                    {% if description is not none %}
+                        <div class="sub header">
+                            {{ description }}
+                        </div>
+                    {% endif %}
+                </div>
+            </h3>
+        </div>
+    </a>
+{% endmacro %}
+
+{% block content %}
+    <div class="ui stackable centered grid container">
+        <div class="twelve wide column">
+			<h2 class="ui center aligned icon header">
+			  <i class="settings icon"></i>
+			  Front Landing Page Service Management Dashboard
+			  <div class="content">
+				
+				<div class="sub header">Click on these tabs to add or edit team members added to the front landing page website.</div>
+			  </div>
+			</h2>
+            <div class="ui two column stackable grid">
+                {{ dashboard_option('Add new', 'admin.add_service',
+                                    description='Click to add new', icon='bars icon') }}	
+                {{ dashboard_option('View and Manage', 'admin.services',
+                                    description='View and manage existing info', icon='edit icon') }}									
+            </div>
+        </div>
+    </div>
+{% endblock %}

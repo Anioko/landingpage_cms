@@ -10,6 +10,7 @@ class Service(db.Model):
     services_intro = db.Column(db.String)
     service_name = db.Column(db.String)
     service_description = db.Column(db.String)
+    service_icon = db.Column(db.String)    
     
     organisation_id = db.Column(db.Integer, db.ForeignKey('organisations.id', ondelete="CASCADE"), nullable=False)
     owner_organisation = db.Column(db.String(128))

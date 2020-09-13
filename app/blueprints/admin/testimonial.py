@@ -23,44 +23,76 @@ photos = UploadSet('photos', IMAGES)
 @admin_required
 def testimonial_dashboard():
     """Testimonial dashboard page."""
-    return render_template('admin/testimonial_settings_dashboard.html')
+    return render_template('admin/testimonial/testimonial_settings_dashboard.html')
 
-@admin.route('/testimonial-settings', methods=['GET', 'POST'])
-@admin.route('/edit/<int:id>', methods=['GET', 'POST'])
+@admin.route('/add/testimonial', methods=['Get', 'POST'])
 @login_required
-@admin_required
-def testimonial_setting(id=None):
-    """Adds information to the testimonial page."""
-    settings = db.session.query(Testimonial.id).count()
-    if settings == 1:
-        return redirect(url_for('admin.edit_testimonial_setting', id=1))
+def add_testimonial():
+    org = Organisation.query.get(1)
     form = TestimonialForm()
-    if request.method == 'POST':
-            settings = Testimonial(
-                person_name = form.site_name.data,
-                testimonial_title = form.title.data,
-                description = form.description.data,
-                organisation_id=org_id
-            )
-            db.session.add(settings)
-            db.session.commit()
-            flash('Settings successfully added', 'success')
-            return redirect(url_for('admin.edit_testimonial_setting', id=id))
-    return render_template('admin/new_testimonial_setting.html', form=form)
 
-@admin.route('/edit-testimonial-settings/<int:id>', methods=['GET', 'POST'])
+    if request.method == 'POST' and 'image' in request.files:
+        image = images.save(request.files['image'])
+        appt = Testimonial(image=image,
+                    owner_organisation=org.org_name,
+                    organisation_id=org.id,
+                    person_name = form.person_name.data,
+                    job_title = form.job_title.data,
+                    description = form.description.data              
+                          )
+        db.session.add(appt)
+        db.session.commit()
+        flash('Testimonial added!', 'success')
+        return redirect(url_for('admin.testimonials'))
+    return render_template('admin/testimonial/add_testimonial.html', form=form, org=org)
+
+
+@admin.route('/<int:testimonial_id>/testimonial/edit', methods=['GET', 'POST'])
+@login_required
+def edit_testimonial(testimonial_id):
+    org = Organisation.query.get(1)
+    settings = Testimonial.query.filter_by(id=testimonial_id).first_or_404()
+    photo = Testimonial.query.filter_by(id=testimonial_id).first_or_404()
+    url = images.url(photo.image)
+    form = TestimonialForm(obj=settings)
+    if request.method == 'POST' and 'image' in request.files:
+        image = images.save(request.files['image'])
+        appt = Testimonial(image=image,
+                    owner_organisation=org.org_name,
+                    organisation_id=org.id,
+                    person_name = form.person_name.data,
+                    job_title = form.job_title.data,
+                    description = form.description.data  
+                          )
+        db.session.add(appt)
+        db.session.commit()
+    #if request.method == 'POST' and 'image' in request.files:
+       # image = images.save(request.files['image'])
+        #form.populate_obj(settings)
+        #db.session.add(settings)
+        #db.session.commit()
+        flash('Data edited!', 'success')
+        return redirect(url_for('admin.testimonial_dashboard'))
+    else:
+        flash('Error! Data was not added.', 'error')
+    return render_template('admin/testimonial/edit_testimonial.html', form=form, url=url)
+
+
+@admin.route('/testimonial', defaults={'page': 1}, methods=['GET'])
+@admin.route('/testimonial/<int:page>', methods=['GET'])
 @login_required
 @admin_required
-def edit_testimonial_setting(id):
-    """Edit information to the testimonial page."""
-    settings = Testimonial.query.get(id)
-    form = TestimonialForm(obj=settings)
-    
-    if request.method == 'POST':
-            form.populate_obj(settings)
-            db.session.add(settings)
-            db.session.commit()
-            flash('Settings successfully edited', 'success')
-            return redirect(url_for('admin.testimonial_dashboard'))
-    return render_template('admin/edit_testimonial_setting.html', form=form)
+def testimonials(page):
+    testimonials = Testimonial.query.paginate(page, per_page=100)
+    return render_template('admin/testimonial/browse.html', testimonials=testimonials)
 
+
+@admin.route('/testimonial/<int:testimonial_id>/_delete', methods=['POST'])
+@login_required
+@admin_required
+def delete_testimonial(testimonial_id):
+    testimonial = Testimonial.query.filter_by(id=testimonial_id).first()
+    db.session.delete(testimonial)
+    db.session.commit()
+    flash('Successfully deleted a testimonial member.', 'success')
+    return redirect(url_for('admin.testimonials'))

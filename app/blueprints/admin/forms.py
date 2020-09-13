@@ -135,13 +135,13 @@ class BlogPostForm(FlaskForm):
 #####Forms Ends #####
 
 class SocialForm(FlaskForm):
-    twitter_name = StringField('Twitter accname only')
-    facebook_name = StringField('Facebook pagename only')
-    instagram_name = StringField('Instagram username only')
-    tiktok_name = StringField('Tiktok username only')
-    linkedin_name = StringField('Linkedin pagename only')
-    snap_chat_name = StringField('Snap chat username only')
-    youtube = StringField('Youtube page name only')
+    twitter_name = StringField('e.g @twitter')
+    facebook_name = StringField('e.g username')
+    instagram_name = StringField('e.g username')
+    tiktok_name = StringField('e.g @username')
+    linkedin_name = StringField('E.g Company Name')
+    snap_chat_name = StringField('E.g username')
+    youtube = StringField('E.g Username')
     submit = SubmitField('Submit')
 
 class OrganisationForm(FlaskForm):
@@ -403,7 +403,7 @@ class OrganisationForm(FlaskForm):
         ('Zambia', 'Zambia'),
         ('Zimbabwe', 'Zimbabwe')])
     org_website = StringField('www.example.com', [Length(max=255)])
-    org_description = TextAreaField('Description', [Required()])
+    org_description = TextAreaField('Description')
     submit = SubmitField('Submit')
     
 class AboutForm(FlaskForm):
@@ -447,35 +447,51 @@ class HtmlForm(FlaskForm):
 
 class Call2actionForm(FlaskForm):
     description = StringField('Call to action text')
-    call2action_url = TextAreaField('Call to action url')
+    call2action_url = StringField('e.g /account/register or /contact')
+    action_title = StringField('e.g Interested? or Next Steps?')
+    action_button_text = StringField('e.g Call Now! or Register Now or Contact Us')
     submit = SubmitField('Submit')
 
 
 #####Frontend Forms Starts #####
 class PortfolioForm(FlaskForm):
-    portfolio_name = StringField('Example Mercedes or Bicycle', validators=[InputRequired(), Length(1, 25)])
-    portfolio_title = StringField('Automobiles', validators=[InputRequired(), Length(1, 50)])
-    portfolio_description = TextAreaField('Website description', validators=[InputRequired(), Length(1, 180)])
+    portfolio_name = StringField('Example Mercedes or Bicycle')
+    portfolio_title = StringField('Automobiles')
+    portfolio_description = TextAreaField('Website description')
  
-    image = FileField('Image', validators=[InputRequired(), FileAllowed(images, 'Images only!')])
+    image = FileField('Image', validators=[Optional(), FileAllowed(images, 'Images only!')])
     submit = SubmitField('Submit')
 
 class TeamForm(FlaskForm):
-    name = StringField('Full name', validators=[InputRequired(), Length(1, 25)])
-    job_title = StringField('Job title', validators=[InputRequired(), Length(1, 50)])
-    job_description = StringField('Job description', validators=[InputRequired(), Length(1, 180)])
+    name = StringField('Full name')
+    job_title = StringField('Job title')
+    job_description = StringField('Job description')
     team_member_twitter = StringField('e.g @teammember')
     team_member_facebook = StringField('e.g JohnPaul')
     team_member_linkedin = StringField('Full Name on Linkedin')
     team_member_instagram = StringField('@username')
-    image = FileField('Image', validators=[InputRequired(), FileAllowed(images, 'Images only!')])
+    image = FileField('Image', validators=[Optional(), FileAllowed(images, 'Images only!')])
     submit = SubmitField('Submit')
- 
+
+class TestimonialForm(FlaskForm):
+    person_name = StringField('Person name')
+    job_title = StringField('Job title')
+    description = StringField('Testimonial comment')
+    image = FileField('Image', validators=[Optional(), FileAllowed(images, 'Images only!')])
+    submit = SubmitField('Submit')
+    
+class ServiceForm(FlaskForm):
+    service_name = StringField('Service name')
+    service_intro = StringField('Service title or Intro')
+    service_description = StringField('Service description')
+    service_icon = StringField('e.g briefcase')
+    submit = SubmitField('Submit')
+    
 #####Frontend Forms Starts #####
 class LandingSettingForm(FlaskForm):
-    site_name = StringField('Site Name e.g bookstore.ng', validators=[InputRequired(), Length(1, 128)])
-    title = StringField('Website Title', validators=[InputRequired(), Length(1, 128)])
-    description = StringField('Website description', validators=[InputRequired(), Length(1, 180)])
+    site_name = StringField('Site Name e.g bookstore.ng')
+    title = StringField('Website Title')
+    description = StringField('Website description')
     twitter_name = StringField('Twitter accname only')
     facebook_name = StringField('Facebook pagename only')
     instagram_name = StringField('Instagram username only')
@@ -488,9 +504,9 @@ class LandingSettingForm(FlaskForm):
     contact = StringField('e.g contact')
     faq = StringField('e.g faq')
     
-    logo = FileField('Logo', validators=[InputRequired(), FileAllowed(images, 'Images only!')])
+    logo = FileField('Logo', Fvalidators=[Optional(), FileAllowed(images, 'Images only!')])
     #images = MultipleFileField('Images', validators=[InputRequired(), FileAllowed(images, 'Images only!')])
-    h1 = StringField('H1 text', validators=[InputRequired(), Length(1, 180)])
+    h1 = StringField('H1 text')
     h2 = StringField('H2 Text')
     h3 = StringField('H3 Text')
     h4 = StringField('H4 Text')
@@ -555,5 +571,5 @@ class NewsLinkForm(FlaskForm):
     submit = SubmitField('Submit')
 
 class ImageForm(FlaskForm):
-    logo = FileField('Logo', validators=[FileRequired(), FileAllowed(images, 'Images only!')])
+    logo = FileField('Logo', FileAllowed(images, 'Images only!'))
     submit = SubmitField('Submit')
