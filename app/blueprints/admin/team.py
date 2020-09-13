@@ -48,11 +48,11 @@ def add_team():
         db.session.add(appt)
         db.session.commit()
         flash('Team added!', 'success')
-        return redirect(url_for('admin.edit_team', team_id=org.id))
+        return redirect(url_for('admin.teams'))
     return render_template('admin/team/add_team.html', form=form, org=org)
 
 
-@admin.route('/<int:team_id>/edit', methods=['GET', 'POST'])
+@admin.route('/<int:team_id>/team/edit', methods=['GET', 'POST'])
 @login_required
 def edit_team(team_id):
     org = Organisation.query.get(1)
@@ -85,3 +85,23 @@ def edit_team(team_id):
     else:
         flash('Error! Data was not added.', 'error')
     return render_template('admin/team/edit_team.html', form=form, url=url)
+
+
+@admin.route('/team', defaults={'page': 1}, methods=['GET'])
+@admin.route('/team/<int:page>', methods=['GET'])
+@login_required
+@admin_required
+def teams(page):
+    teams = Team.query.paginate(page, per_page=100)
+    return render_template('admin/team/browse.html', teams=teams)
+
+
+@admin.route('/team/<int:team_id>/_delete', methods=['POST'])
+@login_required
+@admin_required
+def delete_team(team_id):
+    team = Team.query.filter_by(id=org_id).first()
+    db.session.delete(team)
+    db.session.commit()
+    flash('Successfully deleted a team member.', 'success')
+    return redirect(url_for('admin.teams'))

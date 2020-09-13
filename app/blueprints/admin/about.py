@@ -33,11 +33,12 @@ def add_about():
     org = Organisation.query.get(1)
     form = AboutForm()
 
-    if request.method == 'POST' and 'image' in request.files:
-        image = images.save(request.files['image'])
+    if request.method == 'POST':
+        
         appt = About(owner_organisation=org.org_name,
                      organisation_id=org.id,
-                     about_us_title = db.Column.data,
+                     description = form.description.data,
+                     about_us_title = form.about_us_title.data,
                      key_information_title_one = form.key_information_title_one.data,
                      key_information_title_two = form.key_information_title_two.data,
                      key_information_title_three = form.key_information_title_three.data,
@@ -67,7 +68,7 @@ def add_about():
     return render_template('admin/about/add_about.html', form=form, org=org)
 
 
-@admin.route('/<int:about_id>/edit', methods=['GET', 'POST'])
+@admin.route('/<int:about_id>/about/edit', methods=['GET', 'POST'])
 @login_required
 def edit_about(about_id):
     settings = About.query.filter_by(id=about_id).first_or_404()

@@ -24,6 +24,11 @@ photos = UploadSet('photos', IMAGES)
 def preview():
     """Preview landing page."""
     appt = Organisation.query.get(1)
+    about = About.query.get(1)
+    team = Team.query.get(1)
+    portfolio = Portfolio.query.get(1)
+    services = Services.query.get(1)
+    testimonial = Testimonial.query.get(1)
     if appt.org_industry == "Small Business":
         return render_template('public/enno/index.html')
     elif appt.org_industry == "Church":

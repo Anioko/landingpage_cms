@@ -424,7 +424,7 @@ class AboutForm(FlaskForm):
 
     key_information_numbers_one = StringField(' Number of clients E.g 232')
     key_information_numbers_two = StringField('Number of projects E.g 532')
-    key_information_numbers_three = StringField('Number of support E.g 1,463 ')
+    key_information_numbers_three = StringField('Number of support E.g 1463 ')
     key_information_numbers_four = StringField('Number of workers E.g 20')
  
     key_information_numbers_description_one = StringField('E.g Clients')

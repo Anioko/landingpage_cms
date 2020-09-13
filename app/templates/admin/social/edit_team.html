@@ -27,50 +27,26 @@
 
             {{ f.begin_form(form, flashes) }}
 
-            <div class="field">
-                {{ f.render_form_field(form.about_us_title) }}
-            </div>
-			
-            <div class="field">
-                {{ f.render_form_field(form.key_information_title_one) }}
+            <div class="two fields">
+                {{ f.render_form_field(form.name) }}
+                {{ f.render_form_field(form.job_title) }}
             </div>
             <div class="field">
-                {{ f.render_form_field(form.key_information_title_two) }}
+                {{ f.render_form_field(form.job_description) }}
             </div>
             <div class="field">
-                {{ f.render_form_field(form.key_information_title_three) }}
+                {{ f.render_form_field(form.image) }}
             </div>
-            <div class="three fields">
-                {{ f.render_form_field(form.key_information_description_one) }}
-                {{ f.render_form_field(form.key_information_description_two) }}
-                {{ f.render_form_field(form.key_information_description_three) }}
-            </div>
-			
-            <div class="three fields">
-                {{ f.render_form_field(form.key_information_icon_one) }}
-                {{ f.render_form_field(form.key_information_icon_two) }}
-                {{ f.render_form_field(form.key_information_icon_three) }}
-            </div>
-
+                <div class="ui small image" style="flex-grow: 0">
+                    <img src="{{url}}">
+                </div>
             <div class="four fields">
-                {{ f.render_form_field(form.key_information_numbers_one) }}
-                {{ f.render_form_field(form.key_information_numbers_two) }}
-                {{ f.render_form_field(form.key_information_numbers_three) }}
-                {{ f.render_form_field(form.key_information_numbers_four) }}
+                {{ f.render_form_field(form.team_member_twitter) }}
+                {{ f.render_form_field(form.team_member_facebook) }}
+                {{ f.render_form_field(form.team_member_linkedin) }}
+                {{ f.render_form_field(form.team_member_instagram) }}
             </div>
 
-            <div class="four fields">
-                {{ f.render_form_field(form.key_information_numbers_description_one) }}
-                {{ f.render_form_field(form.key_information_numbers_description_two) }}
-                {{ f.render_form_field(form.key_information_numbers_description_three) }}
-                {{ f.render_form_field(form.key_information_numbers_description_four) }}
-            </div>
-
-            <div class="field">
-                {{ f.render_form_field(form.description) }}
-            </div>
-
-			
             {{ f.form_message(flashes['error'], header='Something went wrong.', class='error') }}
             {{ f.form_message(flashes['warning'], header='Check your email.', class='warning') }}
             {{ f.form_message(flashes['info'], header='Information', class='info') }}
