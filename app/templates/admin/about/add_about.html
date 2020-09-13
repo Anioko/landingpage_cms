@@ -1,0 +1,85 @@
+{% extends 'layouts/base.html' %}
+{% import 'macros/form_macros.html' as f %}
+{% import 'macros/check_password.html' as check %}
+
+
+{% block scripts %}
+{% endblock %}
+
+{% block content %}
+    <div class="ui stackable centered grid container">
+        <div class="twelve wide column">
+            <a class="ui basic compact button" href="{{ url_for('admin.frontend_dashboard') }}">
+                <i class="caret left icon"></i>
+                Back to Frontend Dashboard
+            </a>
+            <h2 class="ui header">
+                Add Team Member to Landing FrontPage
+                <div class="sub header">Add team member details to the landing page</div>
+            </h2>
+
+            {% set flashes = {
+                'error':   get_flashed_messages(category_filter=['form-error']),
+                'warning': get_flashed_messages(category_filter=['form-check-email']),
+                'info':    get_flashed_messages(category_filter=['form-info']),
+                'success': get_flashed_messages(category_filter=['form-success'])
+            } %}
+
+            {{ f.begin_form(form, flashes) }}
+            <div class="field">
+                {{ f.render_form_field(form.about_us_title) }}
+            </div>
+			
+            <div class="field">
+                {{ f.render_form_field(form.key_information_title_one) }}
+            </div>
+            <div class="field">
+                {{ f.render_form_field(form.key_information_title_two) }}
+            </div>
+            <div class="field">
+                {{ f.render_form_field(form.key_information_title_three) }}
+            </div>
+            <div class="three fields">
+                {{ f.render_form_field(form.key_information_description_one) }}
+                {{ f.render_form_field(form.key_information_description_two) }}
+                {{ f.render_form_field(form.key_information_description_three) }}
+            </div>
+			
+            <div class="three fields">
+                {{ f.render_form_field(form.key_information_icon_one) }}
+                {{ f.render_form_field(form.key_information_icon_two) }}
+                {{ f.render_form_field(form.key_information_icon_three) }}
+            </div>
+
+            <div class="four fields">
+                {{ f.render_form_field(form.key_information_numbers_one) }}
+                {{ f.render_form_field(form.key_information_numbers_two) }}
+                {{ f.render_form_field(form.key_information_numbers_three) }}
+                {{ f.render_form_field(form.key_information_numbers_four) }}
+            </div>
+
+            <div class="four fields">
+                {{ f.render_form_field(form.key_information_numbers_description_one) }}
+                {{ f.render_form_field(form.key_information_numbers_description_two) }}
+                {{ f.render_form_field(form.key_information_numbers_description_three) }}
+                {{ f.render_form_field(form.key_information_numbers_description_four) }}
+            </div>
+
+            <div class="field">
+                {{ f.render_form_field(form.description) }}
+            </div>
+
+            {{ f.form_message(flashes['error'], header='Something went wrong.', class='error') }}
+            {{ f.form_message(flashes['warning'], header='Check your email.', class='warning') }}
+            {{ f.form_message(flashes['info'], header='Information', class='info') }}
+            {{ f.form_message(flashes['success'], header='Success!', class='success') }}
+
+            {% for field in form | selectattr('type', 'equalto', 'SubmitField') %}
+                {{ f.render_form_field(field) }}
+            {% endfor %}
+
+            {{ f.end_form() }}
+
+        </div>
+    </div>
+{% endblock %}

@@ -23,16 +23,19 @@
 {% block content %}
     <div class="ui stackable centered grid container">
         <div class="twelve wide column">
-            <h2 class="ui header">
-                Admin Dashboard
-            </h2>
+			<h2 class="ui center aligned icon header">
+			  <i class="settings icon"></i>
+			  Uploads Management Dashboard
+			  <div class="content">
+				
+				<div class="sub header">Click on these tabs to add or edit images uploaded.</div>
+			  </div>
+			</h2>
             <div class="ui two column stackable grid">
-                {{ dashboard_option('Registered Users', 'admin.registered_users',
-                                    description='View and manage user accounts', icon='users icon') }}
-                {{ dashboard_option('Added Organization', 'admin.orgs',
-                                    description='View and manage organization information', icon='building icon') }}
-                {{ dashboard_option('Add New Employee', 'admin.add_orgstaff',
-                                    description='Adds a new employee to create their own account', icon='add user icon') }}
+                {{ dashboard_option('Manage Images', 'admin.images',
+                                    description='Add, view and manage social media links', icon='images icon') }}	
+                {{ dashboard_option('Upload Images', 'admin.image_upload',
+                                    description='Upload', icon='upload icon') }}									
             </div>
         </div>
     </div>

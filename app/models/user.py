@@ -3,6 +3,7 @@ from flask_login import AnonymousUserMixin, UserMixin
 from itsdangerous import TimedJSONWebSignatureSerializer as Serializer
 from itsdangerous import BadSignature, SignatureExpired
 from werkzeug.security import check_password_hash, generate_password_hash
+from sqlalchemy.ext.hybrid import hybrid_property
 
 from .. import db, login_manager
 
@@ -54,6 +55,11 @@ class User(UserMixin, db.Model):
     email = db.Column(db.String(64), unique=True, index=True)
     password_hash = db.Column(db.String(128))
     role_id = db.Column(db.Integer, db.ForeignKey('roles.id'))
+    organisation_id = db.Column(db.Integer, db.ForeignKey('organisations.id'))
+    organisation_name = db.Column(db.String(64))
+    #added_by = db.Column(db.String(64))
+    organisations = db.relationship('Organisation', lazy='select',
+        backref=db.backref('user', lazy='joined'))
 
     def __init__(self, **kwargs):
         super(User, self).__init__(**kwargs)
@@ -64,8 +70,9 @@ class User(UserMixin, db.Model):
             if self.role is None:
                 self.role = Role.query.filter_by(default=True).first()
 
+    @hybrid_property
     def full_name(self):
-        return '%s %s' % (self.first_name, self.last_name)
+        return self.first_name + " " + self.last_name
 
     def can(self, permissions):
         return self.role is not None and \

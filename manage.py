@@ -32,6 +32,13 @@ def test():
     tests = unittest.TestLoader().discover('tests')
     unittest.TextTestRunner(verbosity=2).run(tests)
 
+@manager.command
+def create_tables():
+    """
+    Recreates a local database without dropping it. 
+    """
+    db.create_all()
+    db.session.commit()
 
 @manager.command
 def recreate_db():
@@ -85,7 +92,7 @@ def setup_general():
                 email=Config.ADMIN_EMAIL)
             db.session.add(user)
             db.session.commit()
-            print('Added administrator {}'.format(user.full_name()))
+            print('Added administrator {}'.format(user.full_name))
 
 
 @manager.command

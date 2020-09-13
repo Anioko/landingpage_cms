@@ -32,17 +32,15 @@
 			  </div>
 			</h2>
             <div class="ui two column stackable grid">
-                {{ dashboard_option('Organization details', 'admin.create_org',
-                                    description='Add, view and manage details of your organization', icon='book icon') }}
                 {{ dashboard_option('Social Media Links', 'admin.social_dashboard',
                                     description='Add, view and manage social media links', icon='speakap icon') }}
-                {{ dashboard_option('About Us Details', 'admin.about_dashboard',
+                {{ dashboard_option('About Us Details', 'admin.add_about',
                                     description='Add, view and manage about us details', icon='edit icon') }}
                 {{ dashboard_option('Brands', 'admin.brands_dashboard',
                                     description='Add, view and manage links to other brands your company owns', icon='edit icon') }}
                 {{ dashboard_option('Testimonials', 'admin.testimonial_dashboard',
                                     description='Add, view and manage testimonials from customers', icon='certificate icon') }}
-                {{ dashboard_option('Team', 'admin.team_setting',
+                {{ dashboard_option('Team', 'admin.add_team',
                                     description='Add, view and manage team member details', icon='user circle icon') }}
                 {{ dashboard_option('Call to action', 'admin.calltoaction_dashboard',
                                     description='Add, view and manage your call to action text', icon='bullhorn icon') }}
@@ -56,6 +54,8 @@
                                     description='Add, view and manage links to media publicity', icon='newspaper icon') }}
                 {{ dashboard_option('Tracking scripts', 'admin.tracking_dashboard',
                                     description='Add, view and manage tracking scripts e.g google analytics, facebook analytics', icon='file code icon') }}
+                {{ dashboard_option('Upload Logo and Images', 'admin.uploads_dashboard',
+                                    description='Add, logo and manage images', icon='images icon') }}									
             </div>
         </div>
     </div>

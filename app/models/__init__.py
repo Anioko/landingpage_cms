@@ -21,3 +21,4 @@ from .html import *  # noqa
 from .brands import *  # noqa
 from .newslink import *  # noqa
 from .blog import *  # noqa
+from .orgstaff import *  # noqa

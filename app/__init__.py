@@ -37,12 +37,17 @@ def create_app(config):
 
     app.config.from_object(Config[config_name])
     app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
+    app.config['MAX_CONTENT_LENGTH'] = 1024 * 1024
+    app.config['UPLOAD_EXTENSIONS'] = ['.jpg', '.png', '.gif']
     # not using sqlalchemy event system, hence disabling it
     app.config['UPLOADED_IMAGES_DEST'] = '../../../app/static/images/' if \
         not os.environ.get('UPLOADED_IMAGES_DEST') else os.path.dirname(os.path.realpath(__file__)) + os.environ.get(
         'UPLOADED_IMAGES_DEST')
     app.config['UPLOADED_DOCS_DEST'] = '../../../app/static/docs/' if \
         not os.environ.get('UPLOADED_DOCS_DEST') else os.path.dirname(os.path.realpath(__file__)) + os.environ.get(
+        'UPLOADED_DOCS_DEST')
+    app.config['UPLOADED_PATH'] = '../../../app/static/docs/' if \
+        not os.environ.get('UPLOADED_PATH') else os.path.dirname(os.path.realpath(__file__)) + os.environ.get(
         'UPLOADED_DOCS_DEST')
     app.config['docs'] = app.config['UPLOADED_DOCS_DEST']
 

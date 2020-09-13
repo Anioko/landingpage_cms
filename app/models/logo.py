@@ -7,8 +7,7 @@ from time import time
 class Logo(db.Model):
     __tablename__ = 'logos'
     id = db.Column(db.Integer, primary_key=True)
-    image_filename = db.Column(db.String, default=None, nullable=True)
-    image_url = db.Column(db.String, default=None, nullable=True)
+    image = db.Column(db.String, default=None, nullable=True)
     organisation_id = db.Column(db.Integer, db.ForeignKey('organisations.id', ondelete="CASCADE"), nullable=False)
     owner_organisation = db.Column(db.String(128))
     created_at = db.Column(db.DateTime, default=db.func.now())

@@ -8,7 +8,7 @@ class Photo(db.Model):
 
     id = db.Column(db.Integer, primary_key=True)
     image = db.Column(db.String, default=None, nullable=True)
-
+    file_name = db.Column(db.String(25))
 
     organisation_id = db.Column(db.Integer, db.ForeignKey('organisations.id', ondelete="CASCADE"), nullable=False)
     owner_organisation = db.Column(db.String(128))

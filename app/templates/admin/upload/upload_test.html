@@ -1,22 +1,44 @@
 {% extends 'layouts/base.html' %}
 {% import 'macros/form_macros.html' as f %}
-{% import 'macros/check_password.html' as check %}
-
 
 {% block scripts %}
 {% endblock %}
 
 {% block content %}
     <div class="ui stackable centered grid container">
+            <div class="four wide column">
+               
+        </div>
         <div class="twelve wide column">
             <a class="ui basic compact button" href="{{ url_for('admin.frontend_dashboard') }}">
                 <i class="caret left icon"></i>
-                Back to Frontend Dashboard
+                Back to frontend dashboard
             </a>
             <h2 class="ui header">
-                Edit your Organization
-                <span class="sub header">Set up an account</span>
+                Edit Landing Page Images
+                <div class="sub header">Upload landing page images</div>
             </h2>
+
+		<div class="ui bulleted list">
+		  <div class="item">
+			<div>Logo</div>
+			<div class="list">
+			  <div class="item">To add the logo please name the file as 'logo' before you upload it</div>
+			</div>
+		  </div>
+		  <div class="item">
+			<div>Favicon</div>
+			<div class="list">
+			  <div class="item">To add a favicon please make sure the name is 'favicon' and its ending is .ico</div>
+			</div>
+		  </div>
+		  <div class="item">
+			<div>Icons</div>
+			<div class="list">
+			  <div class="item">To add a icons please make sure the names follow these formats 'apple-touch-icon-144-precomposed', 'apple-touch-icon-114-precomposed', 'apple-touch-icon-72-precomposed' and 'apple-touch-icon-57-precomposed'  </div>
+			</div>
+		  </div>
+		  </div>
 
             {% set flashes = {
                 'error':   get_flashed_messages(category_filter=['form-error']),
@@ -27,26 +49,9 @@
 
             {{ f.begin_form(form, flashes) }}
 
-            <div class="two fields">
-                {{ f.render_form_field(form.org_name) }}
-                {{ f.render_form_field(form.org_industry) }}
-            </div>
-                {{ f.render_form_field(form.org_short_description) }}
-            <div class="field">
-                {# f.render_form_field(form.logo) #}
-            </div>
-            <div class="four fields">
-                {{ f.render_form_field(form.org_website) }}
-                {{ f.render_form_field(form.org_city) }}
-                {{ f.render_form_field(form.org_state) }}
-                {{ f.render_form_field(form.org_country) }}
-            </div>
-            <div class="field">
-                {{ f.render_form_field(form.org_description) }}
-            </div>
+            {{ f.render_form_field(form.logo) }}
 
-
-
+			
             {{ f.form_message(flashes['error'], header='Something went wrong.', class='error') }}
             {{ f.form_message(flashes['warning'], header='Check your email.', class='warning') }}
             {{ f.form_message(flashes['info'], header='Information', class='info') }}

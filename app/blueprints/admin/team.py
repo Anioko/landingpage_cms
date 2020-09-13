@@ -25,48 +25,63 @@ def team_dashboard():
     """Team dashboard page."""
     return render_template('admin/team_settings_dashboard.html')
 
-@admin.route('/landing-settings', methods=['GET', 'POST'])
-@admin.route('/edit/<int:id>', methods=['GET', 'POST'])
+
+@admin.route('/add/team', methods=['Get', 'POST'])
 @login_required
-@admin_required
-def team_setting(id=None):
-    """Adds information to the team page."""
-    #org_id = db.session.query(Organisation.id).count()
-    settings = db.session.query(Team.id).count()
-    if settings == 1:
-        return redirect(url_for('admin.edit_team_setting', id=1))
+def add_team():
+    org = Organisation.query.get(1)
     form = TeamForm()
-    if request.method == 'POST':
-            settings = Team(
-                name = form.name.data,
-                job_title = form.job_title.data,
-                job_description = form.job_description.data,
-                #organisation_id=org_id,                
-                team_member_twitter = form.team_member_twitter.data,
-                team_member_facebook = form.team_member_facebook.data,
-                team_member_linkedin = form.team_member_linkedin.data,
-                team_member_picture = form.team_member_picture.data
 
-            )
-            db.session.add(settings)
-            db.session.commit()
-            flash('Settings successfully added', 'success')
-            return redirect(url_for('admin.edit_team_setting', id=id))
-    return render_template('admin/team/new_team_setting.html', form=form)
+    if request.method == 'POST' and 'image' in request.files:
+        image = images.save(request.files['image'])
+        appt = Team(image=image,
+                    owner_organisation=org.org_name,
+                    organisation_id=org.id,
+                    name = form.name.data,
+                    job_title = form.job_title.data,
+                    job_description = form.job_description.data,              
+                    team_member_twitter = form.team_member_twitter.data,
+                    team_member_facebook = form.team_member_facebook.data,
+                    team_member_linkedin = form.team_member_linkedin.data,
+                    team_member_instagram = form.team_member_instagram.data
+                          )
+        db.session.add(appt)
+        db.session.commit()
+        flash('Team added!', 'success')
+        return redirect(url_for('admin.edit_team', team_id=org.id))
+    return render_template('admin/team/add_team.html', form=form, org=org)
 
-@admin.route('/edit-team-settings/<int:id>', methods=['GET', 'POST'])
+
+@admin.route('/<int:team_id>/edit', methods=['GET', 'POST'])
 @login_required
-@admin_required
-def edit_team_setting(id):
-    """Edit information to the team page."""
-    settings = Team.query.get(id)
+def edit_team(team_id):
+    org = Organisation.query.get(1)
+    settings = Team.query.filter_by(id=team_id).first_or_404()
+    photo = Team.query.filter_by(id=team_id).first_or_404()
+    url = images.url(photo.image)
     form = TeamForm(obj=settings)
-    
-    if request.method == 'POST':
-            form.populate_obj(settings)
-            db.session.add(settings)
-            db.session.commit()
-            flash('Settings successfully edited', 'success')
-            return redirect(url_for('admin.frontend_dashboard'))
-    return render_template('admin/edit_team_setting.html', form=form)
-
+    if request.method == 'POST' and 'image' in request.files:
+        image = images.save(request.files['image'])
+        appt = Team(image=image,
+                      owner_organisation=org.org_name,
+                      organisation_id=org.id,
+                    name = form.name.data,
+                    job_title = form.job_title.data,
+                    job_description = form.job_description.data,              
+                    team_member_twitter = form.team_member_twitter.data,
+                    team_member_facebook = form.team_member_facebook.data,
+                    team_member_linkedin = form.team_member_linkedin.data,
+                    team_member_instagram = form.team_member_instagram.data
+                          )
+        db.session.add(appt)
+        db.session.commit()
+    #if request.method == 'POST' and 'image' in request.files:
+       # image = images.save(request.files['image'])
+        #form.populate_obj(settings)
+        #db.session.add(settings)
+        #db.session.commit()
+        flash('Data edited!', 'success')
+        return redirect(url_for('admin.frontend_dashboard'))
+    else:
+        flash('Error! Data was not added.', 'error')
+    return render_template('admin/team/edit_team.html', form=form, url=url)

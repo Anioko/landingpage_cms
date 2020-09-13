@@ -18,12 +18,6 @@ photos = UploadSet('photos', IMAGES)
 
 
 
-@admin.route('/settings/organization/')
-@login_required
-@admin_required
-def organization_dashboard():
-    """Organization dashboard page."""
-    return render_template('admin/organization_settings_dashboard.html')
 
 @admin.route('/add/organization/', methods=['GET', 'POST'])
 @login_required
@@ -38,7 +32,7 @@ def create_org():
             #image_filename = images.save(request.files['logo'])
             #image_url = images.url(image_filename)
             org = Organisation(
-                user_id=current_user.id,
+                id=current_user.id,
                 #image_filename=image_filename,
                 #image_url=image_url,
                 org_name=form.org_name.data,
@@ -55,7 +49,7 @@ def create_org():
             flash('Data added!', 'success')
             logo = Organisation.query.filter(Organisation.logos).first()
             if logo is None:
-                return redirect(url_for('admin.logo_upload'))
+                return redirect(url_for('admin.image_upload'))
             return redirect(url_for('admin.frontend_dashboard'))
         else:
             flash('Error! Data was not added.', 'error')
@@ -66,7 +60,7 @@ def create_org():
 @admin_required
 def edit_org(org_id):
     """Edit information to the organisation."""
-    settings = Organisation.query.filter(Organisation.user == current_user).filter_by(id=org_id).first_or_404()
+    settings = Organisation.query.filter_by(id=org_id).first_or_404()
     form = OrganisationForm(obj=settings)
     
     if request.method == 'POST':

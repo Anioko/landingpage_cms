@@ -28,7 +28,7 @@ def portfolio_dashboard():
 @admin.route('/add/portfolio', methods=['Get', 'POST'])
 @login_required
 def add_portfolio():
-    org = Organisation.query.filter_by(user_id=current_user.id).first_or_404()
+    org = Organisation.query.get(1)
     form = PortfolioForm()
 
     if request.method == 'POST' and 'image' in request.files:
@@ -50,7 +50,7 @@ def add_portfolio():
 @admin.route('/<int:portfolio_id>/edit', methods=['GET', 'POST'])
 @login_required
 def edit_portfolio(portfolio_id):
-    org = Organisation.query.filter_by(user_id=current_user.id).first_or_404()
+    org = Organisation.query.get(1)
     settings = Portfolio.query.filter_by(id=portfolio_id).first_or_404()
     photo = Portfolio.query.filter_by(id=portfolio_id).first_or_404()
     url = images.url(photo.image)

@@ -1,7 +1,7 @@
 from flask_ckeditor import CKEditorField
 from flask_uploads import UploadSet, IMAGES
 from flask_wtf import FlaskForm
-from flask_wtf.file import FileAllowed
+from flask_wtf.file import FileField, FileAllowed, FileRequired
 from wtforms import ValidationError
 from wtforms.ext.sqlalchemy.fields import QuerySelectField, QuerySelectMultipleField
 from wtforms.fields import (
@@ -24,7 +24,7 @@ from wtforms.validators import (
     InputRequired,
     Length,
     Required,
-    Optional
+    Optional,
 )
 from wtforms.validators import Email, EqualTo, InputRequired, Length, Optional
 from wtforms_alchemy import Unique, ModelForm, model_form_factory
@@ -58,7 +58,7 @@ class ChangeAccountTypeForm(FlaskForm):
     submit = SubmitField('Update role')
 
 
-class InviteUserForm(FlaskForm):
+class OrgStaffForm(FlaskForm):
     role = QuerySelectField(
         'Account type',
         validators=[InputRequired()],
@@ -81,7 +81,7 @@ class InviteUserForm(FlaskForm):
             raise ValidationError('Email already registered.')
 
 
-class NewUserForm(InviteUserForm):
+class NewUserForm(OrgStaffForm):
     password = PasswordField(
         'Password',
         validators=[
@@ -144,26 +144,16 @@ class SocialForm(FlaskForm):
     youtube = StringField('Youtube page name only')
     submit = SubmitField('Submit')
 
-class TeamForm(FlaskForm):
-    name = StringField('Full name', validators=[InputRequired(), Length(1, 25)])
-    job_title = StringField('Job title', validators=[InputRequired(), Length(1, 50)])
-    job_description = StringField('Job description', validators=[InputRequired(), Length(1, 180)])
-    team_member_twitter = StringField('e.g @teammember')
-    team_member_facebook = StringField('e.g JohnPaul')
-    team_member_linkedin = StringField('Full Name on Linkedin')
-    team_member_picture = StringField('Full Name on Linkedin')
-    submit = SubmitField('Submit')
-
 class OrganisationForm(FlaskForm):
     org_name = StringField('Organisation name', validators=[InputRequired(), Length(1, 64)])
-    logo = FileField('Organisation Logo', validators=[FileAllowed(images, 'Images only!')])
+    #logo = FileField('Organisation Logo', validators=[FileAllowed(images, 'Images only!')])
     #logo = FileField('Organisation Logo', validators=[Required(), FileAllowed(images, 'Images only!')])
     org_industry = SelectField(u'Select Industry', choices=[('Small Business', 'Small Business'),
-                                                            ('Church','Church')])
+                                                            ('Church','Church'), ('Restaurant','Restaurant')])
     org_short_description = StringField('One Line of Text', [Length(max=255)])
     org_website = StringField('Website', [Length(max=255)])
     org_city = StringField('City', [Length(max=255)])
-    org_state = StringField('City', [Length(max=255)])
+    org_state = StringField('State or Region', [Length(max=255)])
     org_country = SelectField(u'Select Country', choices=[
 
         ('Afganistan', 'Afghanistan'),
@@ -418,28 +408,29 @@ class OrganisationForm(FlaskForm):
     
 class AboutForm(FlaskForm):
 
-    about_us_title = db.Column(db.String)
-    key_information_title_one = StringField('Key Info Information 1')
-    key_information_title_two = StringField('Key Info Information 2')
-    key_information_title_three = StringField('Key Info Information 3')
- 
-    key_information_description_one = StringField('Key Info Icon 1')
-    key_information_description_two = StringField('Key Info Description 2')
-    key_information_description_three = StringField('Key Info Description 3')
- 
-    key_information_icon_one = StringField('Key Info Icon 1')
-    key_information_icon_two = StringField('Key Info Icon 2')
-    key_information_icon_three = StringField('Key Info Icon 3 ')
 
-    key_information_numbers_one = StringField('Key Info Number 1')
-    key_information_numbers_two = StringField('Key Info Number 2')
-    key_information_numbers_three = StringField('Key Info Number 3')
-    key_information_numbers_four = StringField('Key Info Number 4')
+    about_us_title = StringField('About us title text')
+    key_information_title_one = StringField('Second line title text')
+    key_information_title_two = StringField('Third line title text')
+    key_information_title_three = StringField('Fourth line title text')
  
-    key_information_numbers_description_one = StringField('Key Info Description 1')
-    key_information_numbers_description_two = StringField('Key Info Description 2')
-    key_information_numbers_description_three = StringField('Key Info Description 3')
-    key_information_numbers_description_four = StringField('Key Info Description 4') 
+    key_information_description_one = StringField('About us title description text')
+    key_information_description_two = StringField('Second line title description text')
+    key_information_description_three = StringField('Third line title description text')
+ 
+    key_information_icon_one = StringField('Icon One')
+    key_information_icon_two = StringField('Icon Two')
+    key_information_icon_three = StringField('Icon Three ')
+
+    key_information_numbers_one = StringField(' Number of clients E.g 232')
+    key_information_numbers_two = StringField('Number of projects E.g 532')
+    key_information_numbers_three = StringField('Number of support E.g 1,463 ')
+    key_information_numbers_four = StringField('Number of workers E.g 20')
+ 
+    key_information_numbers_description_one = StringField('E.g Clients')
+    key_information_numbers_description_two = StringField('E.g Projects')
+    key_information_numbers_description_three = StringField('E.g Hours of support')
+    key_information_numbers_description_four = StringField('E.g Employees') 
     
     description = TextAreaField('Description')
     submit = SubmitField('Submit')
@@ -467,7 +458,18 @@ class PortfolioForm(FlaskForm):
     portfolio_description = TextAreaField('Website description', validators=[InputRequired(), Length(1, 180)])
  
     image = FileField('Image', validators=[InputRequired(), FileAllowed(images, 'Images only!')])
-    submit = SubmitField('Submit') 
+    submit = SubmitField('Submit')
+
+class TeamForm(FlaskForm):
+    name = StringField('Full name', validators=[InputRequired(), Length(1, 25)])
+    job_title = StringField('Job title', validators=[InputRequired(), Length(1, 50)])
+    job_description = StringField('Job description', validators=[InputRequired(), Length(1, 180)])
+    team_member_twitter = StringField('e.g @teammember')
+    team_member_facebook = StringField('e.g JohnPaul')
+    team_member_linkedin = StringField('Full Name on Linkedin')
+    team_member_instagram = StringField('@username')
+    image = FileField('Image', validators=[InputRequired(), FileAllowed(images, 'Images only!')])
+    submit = SubmitField('Submit')
  
 #####Frontend Forms Starts #####
 class LandingSettingForm(FlaskForm):
@@ -519,6 +521,7 @@ class LandingSettingForm(FlaskForm):
 class PhotoForm(FlaskForm):
 
     image = FileField('Image', validators=[Optional(), FileAllowed(images, 'Images only!')])
+    file_name = StringField('e.g Favicon')
     submit = SubmitField('Submit')
 
 class OurBrandForm(FlaskForm):
@@ -551,3 +554,6 @@ class NewsLinkForm(FlaskForm):
     news_url_five = StringField('e.g https://vanguard.com/link_to_news')
     submit = SubmitField('Submit')
 
+class ImageForm(FlaskForm):
+    logo = FileField('Logo', validators=[FileRequired(), FileAllowed(images, 'Images only!')])
+    submit = SubmitField('Submit')

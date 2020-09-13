@@ -12,8 +12,9 @@ class Team(db.Model):
     job_description = db.Column(db.String)
     team_member_facebook = db.Column(db.String)
     team_member_twitter = db.Column(db.String)
-    team_member_picture = db.Column(db.String)
+    team_member_instagram = db.Column(db.String)
     team_member_linkedin = db.Column(db.String)
+    image = db.Column(db.String, default=None, nullable=True)
 
     organisation_id = db.Column(db.Integer, db.ForeignKey('organisations.id', ondelete="CASCADE"), nullable=False)
     owner_organisation = db.Column(db.String(128))

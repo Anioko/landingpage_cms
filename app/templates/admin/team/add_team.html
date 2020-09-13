@@ -14,8 +14,8 @@
                 Back to Frontend Dashboard
             </a>
             <h2 class="ui header">
-                Edit your Organization
-                <span class="sub header">Set up an account</span>
+                Add Team Member to Landing FrontPage
+                <div class="sub header">Add team member details to the landing page</div>
             </h2>
 
             {% set flashes = {
@@ -28,23 +28,22 @@
             {{ f.begin_form(form, flashes) }}
 
             <div class="two fields">
-                {{ f.render_form_field(form.org_name) }}
-                {{ f.render_form_field(form.org_industry) }}
-            </div>
-                {{ f.render_form_field(form.org_short_description) }}
-            <div class="field">
-                {# f.render_form_field(form.logo) #}
-            </div>
-            <div class="four fields">
-                {{ f.render_form_field(form.org_website) }}
-                {{ f.render_form_field(form.org_city) }}
-                {{ f.render_form_field(form.org_state) }}
-                {{ f.render_form_field(form.org_country) }}
+                {{ f.render_form_field(form.name) }}
+                {{ f.render_form_field(form.job_title) }}
             </div>
             <div class="field">
-                {{ f.render_form_field(form.org_description) }}
+                {{ f.render_form_field(form.job_description) }}
+            </div>
+            <div class="field">
+                {{ f.render_form_field(form.image) }}
             </div>
 
+            <div class="four fields">
+                {{ f.render_form_field(form.team_member_twitter) }}
+                {{ f.render_form_field(form.team_member_facebook) }}
+                {{ f.render_form_field(form.team_member_linkedin) }}
+                {{ f.render_form_field(form.team_member_instagram) }}
+            </div>
 
 
             {{ f.form_message(flashes['error'], header='Something went wrong.', class='error') }}

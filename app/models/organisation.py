@@ -6,9 +6,9 @@ from time import time
 class Organisation(db.Model):
     __tablename__ = 'organisations'
     id = db.Column(db.Integer, primary_key=True)
-    user_id = db.Column(db.Integer, db.ForeignKey('users.id', ondelete="CASCADE"), nullable=False)
-    image_filename = db.Column(db.String, default=None, nullable=True)
-    image_url = db.Column(db.String, default=None, nullable=True)
+    #user_id = db.Column(db.Integer, db.ForeignKey('users.id', ondelete="CASCADE"), nullable=False)
+    #image_filename = db.Column(db.String, default=None, nullable=True)
+    #image_url = db.Column(db.String, default=None, nullable=True)
     org_name = db.Column(db.String(255))
     org_city = db.Column(db.String(255))
     org_state = db.Column(db.String(255))
@@ -21,11 +21,15 @@ class Organisation(db.Model):
     teams = db.relationship('Team', backref='organisation', lazy='dynamic')
     services = db.relationship('Service', backref='organisation', lazy='dynamic')
     testimonials = db.relationship('Testimonial', backref='organisation', lazy='dynamic')   
-    portfolios = db.relationship('Portfolio', backref='organisation', lazy='dynamic')  
+    portfolios = db.relationship('Portfolio', backref='organisation', lazy='dynamic')
+    users = db.relationship('User', backref='organisation', lazy='dynamic')
     
- 
+    #users = db.relationship('User', backref='organisation', foreign_keys='Organisation.user_id')
    
-    user = db.relationship('User', backref='organisations', cascade='all, delete')
+    #user = db.relationship('User', backref='organisations', cascade='all, delete')
+    #users = db.relationship('User', backref='organisation', lazy='dynamic',
+                        #primaryjoin="Organisation.id == User.organisation_id")
+    
     created_at = db.Column(db.DateTime, default=datetime.now)
     updated_at = db.Column(db.DateTime, default=datetime.now, onupdate=datetime.now)
 

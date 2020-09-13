@@ -25,61 +25,61 @@ def about_dashboard():
     """About dashboard page."""
     return render_template('admin/about_settings_dashboard.html')
 
-@admin.route('/about-settings', methods=['GET', 'POST'])
-@admin.route('/edit/<int:id>', methods=['GET', 'POST'])
+
+
+@admin.route('/add/about', methods=['Get', 'POST'])
 @login_required
-@admin_required
-def about_setting(id=None):
-    """Adds information to the about."""
-    settings = db.session.query(About.id).count()
-    if settings == 1:
-        return redirect(url_for('admin.edit_about_setting', id=1))
+def add_about():
+    org = Organisation.query.get(1)
     form = AboutForm()
-    if request.method == 'POST':
-            settings = About(
-                description = form.description.data,
-                organisation_id=org_id,
-                about_us_title = db.Column.data,
-                key_information_title_one = form.key_information_title_one.data,
-                key_information_title_two = key_information_title_two.data,
-                key_information_title_three = form.key_information_title_three.data,
-             
-                key_information_description_one = form.key_information_description_one.data,
-                key_information_description_two = form.key_information_description_two.data,
-                key_information_description_three = form.key_information_description_three.data,
-             
-                key_information_icon_one = form.key_information_icon_one.data,
-                key_information_icon_two = form.key_information_icon_two.data,
-                key_information_icon_three = form.key_information_icon_three.data,
 
-                key_information_numbers_one = form.key_information_numbers_one.data,
-                key_information_numbers_two = form.key_information_numbers_two.data,
-                key_information_numbers_three = form.key_information_numbers_three.data,
-                key_information_numbers_four = form.key_information_numbers_four.data,
-             
-                key_information_numbers_description_one = form.key_information_numbers_description_one.data,
-                key_information_numbers_description_two = form.key_information_numbers_description_two.data,
-                key_information_numbers_description_three = form.key_information_numbers_description_three.data,
-                key_information_numbers_description_four = form.key_information_numbers_description_four.data, 
-    
-            )
-            db.session.add(settings)
-            db.session.commit()
-            flash('Settings successfully added', 'success')
-            return redirect(url_for('admin.edit_about_setting', id=id))
-    return render_template('admin/new_about_setting.html', form=form)
+    if request.method == 'POST' and 'image' in request.files:
+        image = images.save(request.files['image'])
+        appt = About(owner_organisation=org.org_name,
+                     organisation_id=org.id,
+                     about_us_title = db.Column.data,
+                     key_information_title_one = form.key_information_title_one.data,
+                     key_information_title_two = form.key_information_title_two.data,
+                     key_information_title_three = form.key_information_title_three.data,
+                 
+                     key_information_description_one = form.key_information_description_one.data,
+                     key_information_description_two = form.key_information_description_two.data,
+                     key_information_description_three = form.key_information_description_three.data,
+                 
+                     key_information_icon_one = form.key_information_icon_one.data,
+                     key_information_icon_two = form.key_information_icon_two.data,
+                     key_information_icon_three = form.key_information_icon_three.data,
 
-@admin.route('/edit-about-settings/<int:id>', methods=['GET', 'POST'])
+                     key_information_numbers_one = form.key_information_numbers_one.data,
+                     key_information_numbers_two = form.key_information_numbers_two.data,
+                     key_information_numbers_three = form.key_information_numbers_three.data,
+                     key_information_numbers_four = form.key_information_numbers_four.data,
+                 
+                     key_information_numbers_description_one = form.key_information_numbers_description_one.data,
+                     key_information_numbers_description_two = form.key_information_numbers_description_two.data,
+                     key_information_numbers_description_three = form.key_information_numbers_description_three.data,
+                     key_information_numbers_description_four = form.key_information_numbers_description_four.data 
+                          )
+        db.session.add(appt)
+        db.session.commit()
+        flash('About added!', 'success')
+        return redirect(url_for('admin.edit_about', about_id=org.id))
+    return render_template('admin/about/add_about.html', form=form, org=org)
+
+
+@admin.route('/<int:about_id>/edit', methods=['GET', 'POST'])
 @login_required
-@admin_required
-def edit_about_setting(id):
-    """Edit information to the landing page."""
-    settings = About.query.get(id)
+def edit_about(about_id):
+    settings = About.query.filter_by(id=about_id).first_or_404()
     form = AboutForm(obj=settings)    
     if request.method == 'POST':
-            form.populate_obj(settings)
-            db.session.add(settings)
-            db.session.commit()
-            flash('Settings successfully edited', 'success')
-            return redirect(url_for('admin.frontend_dashboard'))
-    return render_template('admin/edit_about_setting.html', form=form)
+        form.populate_obj(settings)
+        db.session.add(settings)
+        db.session.commit()
+        flash('Data edited!', 'success')
+        return redirect(url_for('admin.frontend_dashboard'))
+    else:
+        flash('Error! Data was not added.', 'error')
+    return render_template('admin/about/edit_about.html', form=form)
+
+

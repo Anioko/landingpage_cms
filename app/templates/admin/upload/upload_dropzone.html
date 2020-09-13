@@ -1,0 +1,18 @@
+<html>
+  <head>
+    <title>File Upload</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/dropzone/5.7.1/min/dropzone.min.css">
+  </head>
+  <body>
+    <h1>File Upload</h1>
+
+	<form method=POST enctype=multipart/form-data action="{{ url_for('admin.image_upload') }}" method="POST" class="dropzone">
+		...
+		<input type=file name=image>
+		...
+		<button type="submit" class="btn btn-primary">Upload</button>
+		<input type="hidden" name="csrf_token" value="{{ csrf_token() }}"/>
+	</form>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/dropzone/5.7.1/min/dropzone.min.js"></script>
+  </body>
+</html>
