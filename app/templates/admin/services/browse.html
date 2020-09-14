@@ -19,15 +19,6 @@
                 </div>
             </h2>
 
-            <div class="ui menu">
-                <div class="ui right search item">
-                    <div class="ui transparent icon input">
-                        <input id="search-users" type="text" placeholder="Search users…">
-                        <i class="search icon"></i>
-                    </div>
-                </div>
-            </div>
-
             {# Use overflow-x: scroll so that mobile views don't freak out
              # when the table is too wide #}
             <div style="overflow-x: scroll;">
@@ -36,7 +27,6 @@
                     <tr>
                         <th>Service Name</th>
                         <th>Service Intro</th>
-                        <th>Service Description</th>
                         <th>Service Icon</th>
                         <th class="sorted ascending">Created At</th>
                         <th>Last Update</th>
@@ -50,7 +40,6 @@
 
                             <td>{{ service.service_name[:50] }}...</td>
                             <td>{{ service.service_intro }}</td>
-                            <td>{{ service.service_description }}</td>
                             <td>{{ service.service_icon }}</td>
                             <td>{{ service.created_at }}</td>
                             <td>{{ service.updated_at }}</td>

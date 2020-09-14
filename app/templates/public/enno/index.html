@@ -1,14 +1,25 @@
 {% extends 'layouts/business_base.html' %}
 
+{% block meta_tags %}
+	<meta charset="UTF-8">
+	<meta name="description" content="{{appt.org_description}} ">
+	<meta name="keywords" content="{{appt.org_short_description}}">
+	<meta name="author" content="{{appt.org_name}} ">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+{% endblock %}
+
+{% block title %}
+ {{appt.org_short_description}} 
+{% endblock %}
 
 {% block content %}
   <!-- ======= Header ======= -->
   <header id="header" class="fixed-top">
     <div class="container d-flex align-items-center">
 
-      <h1 class="logo mr-auto"><a href="index.html">eNno</a></h1>
+      <h1 class="logo mr-auto"><a href="index.html"> {{appt.org_name}}</a></h1>
       <!-- Uncomment below if you prefer to use an image logo -->
-      <!-- <a href="index.html" class="logo mr-auto"><img src="assets/img/logo.png" alt="" class="img-fluid"></a>-->
+      <!-- <a href="index.html" class="logo mr-auto"><img src="/static/assets/img/logo.png" alt="" class="img-fluid"></a>-->
 
       <nav class="nav-menu d-none d-lg-block">
         <ul>
@@ -71,7 +82,7 @@
           </div>
         </div>
         <div class="col-lg-6 order-1 order-lg-2 hero-img">
-          <img src="assets/img/hero-img.png" class="img-fluid animated" alt="">
+          <img src="/static/assets/img/hero-img.png" class="img-fluid animated" alt="">
         </div>
       </div>
     </div>
@@ -94,6 +105,118 @@
         <p>{{ lipsum(6) }}</p>
     </div>
 
+    <!-- ======= Services Section ======= -->
+    <section id="services" class="services section-bg">
+      <div class="container">
+
+        <div class="section-title">
+          <span>Services</span>
+          <h2>Services</h2>
+          <p>Sit sint consectetur velit quisquam cupiditate impedit suscipit alias</p>
+        </div>
+
+        <div class="row">
+				{% if services.id is not none %}
+				{% for appt in services %}
+          <div class="col-lg-4 col-md-6 d-flex align-items-stretch">
+            <div class="icon-box">
+              <div class="icon"><i class="bx {{ appt.service_icon }}"></i></div>
+              <h4><a href="">{{ appt.service_name }}</a></h4>
+              <p>{{ appt.service_intro }}</p>
+            </div>
+          </div>
+		  {% endfor %}
+		  {% else %}
+		  {% endif %}
+
+        </div>
+
+      </div>
+    </section><!-- End Services Section -->
+
+    <!-- ======= Portfolio Section ======= -->
+    <section id="portfolio" class="portfolio">
+      <div class="container">
+
+        <div class="section-title">
+          <span>Portfolio</span>
+          <h2>Portfolio</h2>
+          <p>Sit sint consectetur velit quisquam cupiditate impedit suscipit alias</p>
+        </div>
+        <div class="row">
+				{% if portfolio.id is not none %}
+          <div class="col-lg-12 d-flex justify-content-center">
+            <ul id="portfolio-flters">
+              <li data-filter="*" class="filter-active">All</li>
+			  		  {% for appt in portfolio %}
+              <li data-filter=".filter-{{ appt.portfolio_category}}">{{ appt.portfolio_category}}</li>
+			   {% endfor %}
+            </ul>
+          </div>
+
+		  {% else %}
+		  {% endif %}
+        </div> 
+
+        <div class="row portfolio-container">
+				{% if portfolio.id is not none %}
+				{% for appt in portfolio %}
+          <div class="col-lg-4 col-md-6 portfolio-item filter-{{ appt.portfolio_category}}">
+            <img src="http://localhost:5000/static/images/{{ appt.image}}" class="img-fluid" alt="">
+            <div class="portfolio-info">
+              <h4>{{ appt.portfolio_name }}</h4>
+              <p>{{ appt.portfolio_category}}</p>
+              <a href="http://localhost:5000/static/images/{{ appt.image}}" data-gall="portfolioGallery" class="venobox preview-link" title="{{ appt.portfolio_name}}"><i class="bx bx-plus"></i></a>
+              <a href="{{ url_for('admin.portfolio_details', portfolio_id=appt.id) }}" class="details-link" title="More Details"><i class="bx bx-link"></i></a>
+            </div>
+          </div>
+		  {% endfor %}
+		  {% else %}
+		  {% endif %}
+        </div>
+
+      </div>
+    </section><!-- End Portfolio Section -->
+    <!-- ======= Testimonials Section ======= -->
+    <section id="testimonials" class="testimonials section-bg">
+      <div class="container">
+        <div class="section-title">
+		{% if testimonialsection.id is not none %}
+          <span>{{ testimonialsection.section_name }}</span>
+          <h2>{{ testimonialsection.section_name }}</h2>
+          <p>{{ testimonialsection.section_description }}</p>
+		  {% else %}
+		  {% endif %}
+        </div>
+        <div class="owl-carousel testimonials-carousel">
+		  {# for appt in testimonial #}
+          <div class="testimonial-item">
+            <p>
+              <i class="bx bxs-quote-alt-left quote-icon-left"></i>
+			{{ appt.description}}
+              <i class="bx bxs-quote-alt-right quote-icon-right"></i>
+            </p>
+            <img src="http://localhost:5000/static/images/{{ appt.image}}" class="testimonial-img" alt="">
+            <h3>{{ appt.person_name}}</h3>
+            <h4>{{ appt.job_title}}</h4>
+          </div>
+		  {% if testimonialsection.id is not none %}
+          <div class="testimonial-item">
+            <p>
+              <i class="bx bxs-quote-alt-left quote-icon-left"></i>
+              Quis quorum aliqua sint quem legam fore sunt eram irure aliqua veniam tempor noster veniam enim culpa labore duis sunt culpa nulla illum cillum fugiat legam esse veniam culpa fore nisi cillum quid.
+              <i class="bx bxs-quote-alt-right quote-icon-right"></i>
+            </p>
+            <img src="/static/assets/img/testimonials/testimonials-5.jpg" class="testimonial-img" alt="">
+            <h3>John Larson</h3>
+            <h4>Entrepreneur</h4>
+          </div>
+		  {% else %}
+		  {% endif %}
+		  {# endfor #}
+        </div>
+      </div>
+    </section><!-- End Testimonials Section -->
 {% if call2action.id is not none %}
     <!-- ======= Cta Section ======= -->
     <section id="cta" class="cta">
@@ -109,22 +232,26 @@
     </section><!-- End Cta Section -->
 			  		  {% else %}
 		  {% endif %}
-{% if team.id is not none %}
+
     <!-- ======= Team Section ======= -->
     <section id="team" class="team section-bg">
       <div class="container">
 
         <div class="section-title">
-          <span>Team</span>
-          <h2>Team</h2>
-          <p>Sit sint consectetur velit quisquam cupiditate impedit suscipit alias</p>
+		{% if teamsection.id is not none %}
+          <span>{{ teamsection.section_name }}</span>
+          <h2>{{ teamsection.section_name }}</h2>
+          <p>{{ teamsection.section_description }}</p>
+		  {% else %}
+		  {% endif %}
         </div>
 
         <div class="row">
+		{% if team.id is not none %}
 		  {% for appt in team %}
           <div class="col-lg-4 col-md-6 d-flex align-items-stretch">
             <div class="member">
-              <img src="../appstatic/photo/{{ appt.image}}" alt="">
+              <img src="http://localhost:5000/static/images/{{ appt.image}}" alt="">
               <h4>{{ appt.name}}</h4>
               <span>{{ appt.job_title}}</span>
               <p>
@@ -138,80 +265,11 @@
               </div>
             </div>
           </div>
-		  			 {% endfor %}
+		  {% endfor %}
+		  {% else %}
+		  {% endif %}
         </div>
 
       </div>
     </section><!-- End Team Section -->
-			  		  {% else %}
-		  {% endif %}
-  <!-- ======= Footer ======= -->
-  <footer id="footer">
-
-    <div class="footer-top">
-
-      <div class="container">
-
-        <div class="row  justify-content-center">
-          <div class="col-lg-6">
-            <h3>eNno</h3>
-            <p>Et aut eum quis fuga eos sunt ipsa nihil. Labore corporis magni eligendi fuga maxime saepe commodi placeat.</p>
-          </div>
-        </div>
-
-        <div class="row footer-newsletter justify-content-center">
-          <div class="col-lg-6">
-            <form action="" method="post">
-              <input type="email" name="email" placeholder="Enter your Email"><input type="submit" value="Subscribe">
-            </form>
-          </div>
-        </div>
-
-        <div class="social-links">
-
-		{% if socials.twitter_name %}
-          <a href="https://www.twitter.com/{{socials.twitter_name}}" class="twitter"><i class="bx bxl-twitter"></i></a>
-		  		  {% else %}
-		  {% endif %}
-		{% if socials.facebook_name %}		  		  
-          <a href="https://www.facebook.com/{{socials.facebook_name}}" class="facebook"><i class="bx bxl-facebook"></i></a>
-		  		  {% else %}
-		  {% endif %}
-			{% if socials.instagram_name %}
-          <a href="https://www.instagram.com/{{socials.instagram_name}}" class="instagram"><i class="bx bxl-instagram"></i></a>
-		  		  {% else %}
-		  {% endif %}
-		  		{% if socials.linkedin_name %}
-          <a href="https://www.linkedin.com/{{socials.linkedin_name}}" class="linkedin"><i class="bx bxl-linkedin"></i></a>
-		  		  {% else %}
-		  {% endif %}
-		 		{% if socials.tiktok_name %}
-          <a href="https://www.tiktok.com/{{socials.tiktok_name}}" class="tiktok"><i class="bx bxl-tiktok"></i></a>
-		  		  {% else %}
-		  {% endif %}
-		 		{% if socials.snap_chat_name %}
-          <a href="https://www.snapchat.com/{{socials.snap_chat_name}}" class="snapchat"><i class="bx bxl-snapchat"></i></a>
-		  		  {% else %}
-		  {% endif %}
-		 		{% if socials.youtube %}
-          <a href="https://www.youtube.com/{{socials.youtube}}" class="youtube"><i class="bx bxl-youtube"></i></a>
-		  {% else %}
-		  {% endif %} 
-        </div>
-      </div>
-    </div>
-
-    <div class="container footer-bottom clearfix">
-      <div class="copyright">
-        &copy; Copyright <strong><span>eNno</span></strong>. All Rights Reserved
-      </div>
-      <div class="credits">
-        <!-- All the links in the footer should remain intact. -->
-        <!-- You can delete the links only if you purchased the pro version. -->
-        <!-- Licensing information: https://bootstrapmade.com/license/ -->
-        <!-- Purchase the pro version with working PHP/AJAX contact form: https://bootstrapmade.com/enno-free-simple-bootstrap-template/ -->
-        Designed by <a href="https://bootstrapmade.com/">BootstrapMade</a>
-      </div>
-    </div>
-  </footer><!-- End Footer -->
 {% endblock %}

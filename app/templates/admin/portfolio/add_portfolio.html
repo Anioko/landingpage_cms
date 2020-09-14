@@ -31,10 +31,16 @@
                 {{ f.render_form_field(form.portfolio_name) }}
                 {{ f.render_form_field(form.portfolio_title) }}
             </div>
+            <div class="two fields">
+                {{ f.render_form_field(form.currency) }}
+                {{ f.render_form_field(form.portfolio_price) }}
+            </div>
             <div class="field">
                 {{ f.render_form_field(form.image) }}
             </div>
-
+            <div class="field">
+                {{ f.render_form_field(form.portfolio_category) }}
+            </div>
             <div class="field">
                 {{ f.render_form_field(form.portfolio_description) }}
             </div>

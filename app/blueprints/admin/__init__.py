@@ -15,3 +15,6 @@ from app.blueprints.admin.organisation import organisation  # noqa
 from app.blueprints.admin.upload import image_upload  # noqa
 from app.blueprints.admin.orgstaff import orgstaff  # noqa
 from app.blueprints.admin.preview import preview  # noqa
+from app.blueprints.admin.contact import contact  # noqa
+from app.blueprints.admin.teamsection import teamsection  # noqa
+from app.blueprints.admin.testimonialsection import testimonialsection  # noqa

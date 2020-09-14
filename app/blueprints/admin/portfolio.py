@@ -23,7 +23,7 @@ photos = UploadSet('photos', IMAGES)
 @admin_required
 def portfolio_dashboard():
     """Portfolio dashboard page."""
-    return render_template('admin/portfolio_settings_dashboard.html')
+    return render_template('admin/portfolio/portfolio_settings_dashboard.html')
 
 @admin.route('/add/portfolio', methods=['Get', 'POST'])
 @login_required
@@ -38,12 +38,15 @@ def add_portfolio():
                       organisation_id=org.id,
                       portfolio_name = form.portfolio_name.data,
                       portfolio_title = form.portfolio_title.data,
+                      portfolio_category = form.portfolio_category.data,
+                      portfolio_price = form.portfolio_price.data,
+                      currency = form.currency.data,
                       portfolio_description = form.portfolio_description.data
                           )
         db.session.add(appt)
         db.session.commit()
         flash('Portfolio added!', 'success')
-        return redirect(url_for('admin.edit_portfolio', portfolio_id=org.id))
+        return redirect(url_for('admin.portfolios'))
     return render_template('admin/portfolio/add_portfolio.html', form=form, org=org)
 
 
@@ -62,6 +65,9 @@ def edit_portfolio(portfolio_id):
                       organisation_id=org.id,
                       portfolio_name = form.portfolio_name.data,
                       portfolio_title = form.portfolio_title.data,
+                      portfolio_category = form.portfolio_category.data,
+                      portfolio_price = form.portfolio_price.data,
+                      currency = form.currency.data,
                       portfolio_description = form.portfolio_description.data
                           )
         db.session.add(appt)
@@ -72,8 +78,28 @@ def edit_portfolio(portfolio_id):
         #db.session.add(settings)
         #db.session.commit()
         flash('Data edited!', 'success')
-        return redirect(url_for('admin.frontend_dashboard'))
+        return redirect(url_for('admin.portfolio_dashboard'))
     else:
         flash('Error! Data was not added.', 'error')
     return render_template('admin/portfolio/edit_portfolio.html', form=form, url=url)
+
+@admin.route('/portfolio', defaults={'page': 1}, methods=['GET'])
+@admin.route('/portfolio/<int:page>', methods=['GET'])
+@login_required
+@admin_required
+def portfolios(page):
+    portfolios = Portfolio.query.paginate(page, per_page=100)
+    return render_template('admin/portfolio/browse.html', portfolios=portfolios)
+
+
+@admin.route('/portfolio/<int:portfolio_id>/_delete', methods=['GET'])
+@login_required
+@admin_required
+def delete_portfolio(portfolio_id):
+    portfolio = Portfolio.query.filter_by(id=portfolio_id).first()
+    db.session.delete(portfolio)
+    db.session.commit()
+    flash('Successfully deleted an item.', 'success')
+    return redirect(url_for('admin.portfolios'))
+
 

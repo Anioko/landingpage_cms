@@ -20,10 +20,10 @@ def index():
                                keyword2="network")
 
 
-@public.route('/about')
-def about():
-    editable_html_obj = EditableHTML.get_editable_html('about')
-    return render_template('public/about.html', editable_html_obj=editable_html_obj)
+#@public.route('/about')
+#def about():
+    #editable_html_obj = EditableHTML.get_editable_html('about')
+    #return render_template('public/about.html', editable_html_obj=editable_html_obj)
 
 
 @public.route('/contact', methods=['GET', 'POST'])

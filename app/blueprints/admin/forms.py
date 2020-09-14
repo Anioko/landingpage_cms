@@ -452,12 +452,28 @@ class Call2actionForm(FlaskForm):
     action_button_text = StringField('e.g Call Now! or Register Now or Contact Us')
     submit = SubmitField('Submit')
 
+class TeamsectionForm(FlaskForm):
+    section_name = StringField('E.g Customer Testiomonials')
+    section_description = StringField('Write 50 words to describe this section')
+    submit = SubmitField('Submit')
 
+class TestimonialsectionForm(FlaskForm):
+    section_name = StringField('E.g Management Team')
+    section_description = StringField('Write 50 words to describe this section')
+    submit = SubmitField('Submit')
 #####Frontend Forms Starts #####
 class PortfolioForm(FlaskForm):
-    portfolio_name = StringField('Example Mercedes or Bicycle')
-    portfolio_title = StringField('Automobiles')
-    portfolio_description = TextAreaField('Website description')
+    portfolio_name = StringField('Name of product e.g Volvo XC 60')
+    portfolio_title = StringField('Product Title e.g Best land jeep')
+    portfolio_description = TextAreaField('Product Description')
+    portfolio_category = StringField('Product Category e.g Drinks')
+    portfolio_price = FloatField('Product Price e.g 9.90')
+    currency = SelectField(u'Select Currency', choices=[
+
+        ('British Pounds', 'British Pounds'),
+        ('US Dollars', 'US Dollars'),
+        ('Euro', 'Euro'),
+        ('Naira', 'Naira')])
  
     image = FileField('Image', validators=[Optional(), FileAllowed(images, 'Images only!')])
     submit = SubmitField('Submit')
@@ -484,7 +500,7 @@ class ServiceForm(FlaskForm):
     service_name = StringField('Service name')
     service_intro = StringField('Service title or Intro')
     service_description = StringField('Service description')
-    service_icon = StringField('e.g briefcase')
+    service_icon = StringField('e.g bxs-news')
     submit = SubmitField('Submit')
     
 #####Frontend Forms Starts #####

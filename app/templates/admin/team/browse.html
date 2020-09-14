@@ -19,15 +19,6 @@
                 </div>
             </h2>
 
-            <div class="ui menu">
-                <div class="ui right search item">
-                    <div class="ui transparent icon input">
-                        <input id="search-users" type="text" placeholder="Search users…">
-                        <i class="search icon"></i>
-                    </div>
-                </div>
-            </div>
-
             {# Use overflow-x: scroll so that mobile views don't freak out
              # when the table is too wide #}
             <div style="overflow-x: scroll;">
@@ -51,7 +42,6 @@
                     <tbody>
                     {% for team in teams.items | sort(attribute='created_at') %}
                         <tr>
-
                             <td>{{ team.name[:50] }}...</td>
                             <td>{{ team.job_title }}</td>
                             <td>{{ team.job_description }}</td>
@@ -67,7 +57,7 @@
 							</td>
                             <td>
                                 <a class="ui red left floated button" style="margin-top: 1px"
-                                   href="/admin/team/{{team.id}}/delete">Delete</a>
+                                   href="/admin/team/{{team.id}}/_delete">Delete</a>
                             </td>
                         </tr>
                     {% endfor %}

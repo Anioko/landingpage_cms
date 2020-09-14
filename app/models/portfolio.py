@@ -9,7 +9,10 @@ class Portfolio(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     portfolio_name = db.Column(db.String)
     portfolio_title = db.Column(db.String)
-    portfolio_description = db.Column(db.String)
+    portfolio_category = db.Column(db.String)
+    portfolio_price = db.Column(db.Float)
+    portfolio_description = db.Column(db.Text)
+    currency = db.Column(db.String)
     
     image = db.Column(db.String, default=None, nullable=True)
     organisation_id = db.Column(db.Integer, db.ForeignKey('organisations.id', ondelete="CASCADE"), nullable=False)

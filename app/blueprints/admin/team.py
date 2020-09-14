@@ -37,6 +37,7 @@ def add_team():
         appt = Team(image=image,
                     owner_organisation=org.org_name,
                     organisation_id=org.id,
+
                     name = form.name.data,
                     job_title = form.job_title.data,
                     job_description = form.job_description.data,              
@@ -81,7 +82,7 @@ def edit_team(team_id):
         #db.session.add(settings)
         #db.session.commit()
         flash('Data edited!', 'success')
-        return redirect(url_for('admin.frontend_dashboard'))
+        return redirect(url_for('admin.team_dashboard'))
     else:
         flash('Error! Data was not added.', 'error')
     return render_template('admin/team/edit_team.html', form=form, url=url)
@@ -96,11 +97,11 @@ def teams(page):
     return render_template('admin/team/browse.html', teams=teams)
 
 
-@admin.route('/team/<int:team_id>/_delete', methods=['POST'])
+@admin.route('/team/<int:team_id>/_delete', methods=['GET'])
 @login_required
 @admin_required
 def delete_team(team_id):
-    team = Team.query.filter_by(id=org_id).first()
+    team = Team.query.filter_by(id=team_id).first()
     db.session.delete(team)
     db.session.commit()
     flash('Successfully deleted a team member.', 'success')

@@ -1,0 +1,64 @@
+  <!-- ======= Footer ======= -->
+  <footer id="footer">
+
+    <div class="footer-top">
+
+      <div class="container">
+
+        <div class="row  justify-content-center">
+          <div class="col-lg-6">
+            <h3>eNno</h3>
+            <p>Et aut eum quis fuga eos sunt ipsa nihil. Labore corporis magni eligendi fuga maxime saepe commodi placeat.</p>
+          </div>
+        </div>
+
+        <div class="row footer-newsletter justify-content-center">
+          <div class="col-lg-6">
+            <form action="" method="post">
+              <input type="email" name="email" placeholder="Enter your Email"><input type="submit" value="Subscribe">
+            </form>
+          </div>
+        </div>
+
+        <div class="social-links">
+
+		{% if socials.twitter_name %}
+          <a href="https://www.twitter.com/{{socials.twitter_name}}" class="twitter"><i class="bx bxl-twitter"></i></a>
+		  		  {% else %}
+		  {% endif %}
+		{% if socials.facebook_name %}		  		  
+          <a href="https://www.facebook.com/{{socials.facebook_name}}" class="facebook"><i class="bx bxl-facebook"></i></a>
+		  		  {% else %}
+		  {% endif %}
+			{% if socials.instagram_name %}
+          <a href="https://www.instagram.com/{{socials.instagram_name}}" class="instagram"><i class="bx bxl-instagram"></i></a>
+		  		  {% else %}
+		  {% endif %}
+		  		{% if socials.linkedin_name %}
+          <a href="https://www.linkedin.com/{{socials.linkedin_name}}" class="linkedin"><i class="bx bxl-linkedin"></i></a>
+		  		  {% else %}
+		  {% endif %}
+		 		{% if socials.tiktok_name %}
+          <a href="https://www.tiktok.com/{{socials.tiktok_name}}" class="tiktok"><i class="bx bxl-tiktok"></i></a>
+		  		  {% else %}
+		  {% endif %}
+		 		{% if socials.snap_chat_name %}
+          <a href="https://www.snapchat.com/{{socials.snap_chat_name}}" class="snapchat"><i class="bx bxl-snapchat"></i></a>
+		  		  {% else %}
+		  {% endif %}
+		 		{% if socials.youtube %}
+          <a href="https://www.youtube.com/{{socials.youtube}}" class="youtube"><i class="bx bxl-youtube"></i></a>
+		  {% else %}
+		  {% endif %} 
+        </div>
+      </div>
+    </div>
+
+    <!----<div class="container footer-bottom clearfix">
+      <div class="copyright">
+        &copy; Copyright <strong><span>eNno</span></strong>. All Rights Reserved
+      </div>
+        Designed by <a href="https://bootstrapmade.com/">BootstrapMade</a>
+      </div>
+    </div>---->
+  </footer><!-- End Footer -->

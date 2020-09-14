@@ -32,6 +32,8 @@
 			  </div>
 			</h2>
             <div class="ui two column stackable grid">
+                {{ dashboard_option('Preview Landing Page', 'admin.preview',
+                                    description='Preview your website landing page', icon='eye icon') }}
                 {{ dashboard_option('Social Media Links', 'admin.add_social',
                                     description='Add, view and manage social media links', icon='speakap icon') }}
                 {{ dashboard_option('About Us Details', 'admin.add_about',
@@ -40,13 +42,17 @@
                                     description='Add, view and manage links to other brands your company owns', icon='edit icon') }}
                 {{ dashboard_option('Testimonials', 'admin.testimonial_dashboard',
                                     description='Add, view and manage testimonials from customers', icon='certificate icon') }}
+                {{ dashboard_option('Teams Section Editor', 'admin.add_teamsection',
+                                    description='Add name and description to display teams', icon='edit icon') }}
+                {{ dashboard_option('Testiominal Section Editor', 'admin.add_testimonialsection',
+                                    description='Add name and description to display testimonials', icon='edit icon') }}
                 {{ dashboard_option('Team', 'admin.team_dashboard',
                                     description='Add, view and manage team member details', icon='user circle icon') }}
                 {{ dashboard_option('Call to action', 'admin.add_call2action',
                                     description='Add, view and manage your call to action text', icon='bullhorn icon') }}
                 {{ dashboard_option('Services', 'admin.services_dashboard',
                                     description='Add, view and manage services offered', icon='building icon') }}
-                {{ dashboard_option('Portfolio', 'admin.add_portfolio',
+                {{ dashboard_option('Portfolio', 'admin.portfolio_dashboard',
                                     description='Add, view and manage your product portfolio', icon='briefcase icon') }}
                 {{ dashboard_option('HTML Code', 'admin.html_dashboard',
                                     description='Add extra html code to the landing page', icon='file code icon') }}

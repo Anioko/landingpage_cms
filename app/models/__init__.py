@@ -22,3 +22,5 @@ from .brands import *  # noqa
 from .newslink import *  # noqa
 from .blog import *  # noqa
 from .orgstaff import *  # noqa
+from .teamsection import *  # noqa
+from .testimonialsection import *  # noqa

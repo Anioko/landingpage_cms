@@ -37,7 +37,7 @@ def add_service():
                     organisation_id=org.id,
                     service_name = form.service_name.data,
                     service_icon = form.service_icon.data,
-                    service_description = form.service_description.data
+                    service_intro = form.service_intro.data
                           )
         db.session.add(appt)
         db.session.commit()

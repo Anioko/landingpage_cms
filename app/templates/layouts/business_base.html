@@ -3,10 +3,13 @@
 
 <head>
 
+{% block meta_tags %}
+
+{% endblock %}
         {% include 'partials/_landing_page_head.html' %}
+	<title>{% block title %}{{config.APP_NAME}}{% endblock %}</title>
         {# Any templates that extend this template can set custom_head_tags to add scripts to their page #}
-        {% block custom_head_tags %}{% endblock %}
-		
+        {# block custom_head_tags #}{# endblock #}
 
 
 </head>
@@ -28,6 +31,11 @@
               <input type="hidden" name="csrf_token" value="{{ csrf_token()|safe }}">
             </div>
         {% endif %}
+
+        {% include 'partials/_footer.html' %}
+        {# When extended, the content block contains the footer #}
+        {% block footer_content %}
+        {% endblock %}
     </body>
 
 </html>

@@ -1,0 +1,149 @@
+{% extends 'layouts/base.html' %}
+
+{% block content %}
+    <div class="ui stackable grid container">
+        <div class="twelve wide tablet twelve wide computer centered column">
+            <a class="ui basic compact button" href="{{ url_for('admin.frontend_dashboard') }}">
+                <i class="caret left icon"></i>
+                Back to Administrator dashboard
+            </a>  
+ 	
+			<a class="ui right floated green button" href="{{ url_for('admin.add_portfolio') }}">
+                <i class="caret right icon"></i>
+                Add New
+            </a> 
+            <h2 class="ui header">
+               Manage Product Portfolio 
+                <div class="sub header">
+                    View and manage product portfolio shown on the front landing page.
+                </div>
+            </h2>
+
+
+
+            {# Use overflow-x: scroll so that mobile views don't freak out
+             # when the table is too wide #}
+            <div style="overflow-x: scroll;">
+                <table class="ui searchable sortable unstackable selectable celled table">
+                    <thead>
+                    <tr>
+                        <th>Product or Portfolio Name</th>
+                        <th>Product or Portfolio Title</th>
+                        <th>Category</th>
+                        <th>Price</th>
+                        <th>Currency</th>
+                        <th>Description</th>
+                        <th>Photo</th>
+                        <th class="sorted ascending">Created At</th>
+                        <th>Last Update</th>
+                        <th>Edit</th>
+                        <th>Delete</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    {% for portfolio in portfolios.items | sort(attribute='created_at') %}
+                        <tr>
+
+                            <td>{{ portfolio.portfolio_name[:50] }}...</td>
+                            <td>{{ portfolio.portfolio_title }}</td>
+                            <td>{{ portfolio.portfolio_category }}</td>
+                            <td>{{ portfolio.portfolio_price }}</td>
+                            <td>{{ portfolio.currency }}</td>
+                            <td>{{ portfolio.portfolio_description }}</td>
+                            <td>{{ portfolio.image }}</td>
+                            <td>{{ portfolio.created_at }}</td>
+                            <td>{{ portfolio.updated_at }}</td>
+                            <td>
+                                <a class="ui blue left floated button" style="margin-top: 1px" href="{{ url_for('admin.edit_portfolio', portfolio_id=portfolio.id) }}">Edit</a>							
+							</td>
+                            <td>
+                                <a class="ui red left floated button" style="margin-top: 1px"
+                                   href="/admin/portfolio/{{portfolio.id}}/_delete">Delete</a>
+                            </td>
+                        </tr>
+                    {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+
+            <br>
+            <br>
+            <br>
+            <div class="ui centered grid ">
+                <div class="ui pagination menu">
+                    {% for page in portfolios.iter_pages() %}
+                        {% if page %}
+                            {% if page != portfolios.page %}
+                                <a class="item" href="{{ url_for('admin.portfolios', page=page) }}">
+                                    {{ page }}
+                                </a>
+                            {% else %}
+                                <a class="item active">
+                                    {{ page }}
+                                </a>
+                            {% endif %}
+                        {% else %}
+                            <div class="disabled item">
+                                ...
+                            </div>
+                        {% endif %}
+                    {% endfor %}
+                </div>
+            </div>
+
+
+        </div>
+        <form method="POST" action="{{ url_for('admin.delete_portfolio', portfolio_id=0) }}" id="delete-portfolio-form">
+            <input type="hidden" name="csrf_token" value="{{ csrf_token() }}"/>
+        </form>
+    </div>
+
+{% endblock %}
+
+{% block scripts %}
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/sweetalert/2.1.2/sweetalert.min.js"></script>
+    <script>
+        function confirmDeletePortfolio(portfolio_id){
+            swal({
+                title: "Are you sure?",
+                text: "Once deleted, you will not be able to recover this portfolio",
+                icon: "warning",
+                buttons: true,
+                dangerMode: true,
+            })
+                .then((willDelete) => {
+                    if (willDelete) {
+                        let form = $("#delete-portfolio-form");
+                        form.attr('action', "{{ url_for('admin.delete_portfolio', portfolio_id=0) }}".replace('0',portfolio_id));
+                        form.submit();
+                    } else {
+                        return false;
+                    }
+                });
+            return false;
+        }
+    </script>
+    <script type="text/javascript">
+        $(document).ready(function () {
+            $('#search-users').keyup(function () {
+                var searchText = $(this).val();
+                if (searchText.length > 0) {
+                    $('tbody td:icontains(' + searchText + ')').addClass('positive');
+                    $('td.positive').not(':icontains(' + searchText + ')').removeClass('positive');
+                    $('tbody td').not(':icontains(' + searchText + ')').closest('tr').addClass('hidden').hide();
+                    $('tr.hidden:icontains(' + searchText + ')').removeClass('hidden').show();
+                } else {
+                    $('td.positive').removeClass('positive');
+                    $('tr.hidden').removeClass('hidden').show();
+                }
+            });
+
+            $('#select-role').dropdown({
+                onChange: function (value, text, $selectedItem) {
+                    $('td.user.role:contains(' + value + ')').closest('tr').removeClass('hidden').show();
+                    $('td.user.role').not(':contains(' + value + ')').closest('tr').addClass('hidden').hide();
+                }
+            });
+        });
+    </script>
+{% endblock %}
